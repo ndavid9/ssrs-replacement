@@ -1,0 +1,148 @@
+{
+  "catalogVersion": "2026.1",
+  "entries": [
+    {
+      "key": "disclaimer.scope",
+      "language": "en",
+      "versionLabel": "0.9.0",
+      "scope": "report",
+      "category": "disclaimer",
+      "effectiveFrom": "2025-01-01",
+      "effectiveTo": "2025-12-31",
+      "approvalStatus": "approved",
+      "body": "OLD TEXT SHOULD NOT APPEAR token OLD-DISCLAIMER-9 for {{reportNumber}}."
+    },
+    {
+      "key": "disclaimer.scope",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "report",
+      "category": "disclaimer",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Synthetic demonstration only for report {{reportNumber}}. Sample count on this document: {{sampleCount}}. This is not a laboratory certificate and is not valid for trade or legal use."
+    },
+    {
+      "key": "disclaimer.scope",
+      "language": "en",
+      "versionLabel": "9.9.9",
+      "scope": "report",
+      "category": "disclaimer",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "draft",
+      "body": "DRAFT TEXT SHOULD NOT APPEAR token DRAFT-DISCLAIMER for {{reportNumber}}."
+    },
+    {
+      "key": "conclusion.report",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "report",
+      "category": "conclusion",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Report-level conclusion for {{reportNumber}}. It is printed once, not under each sample."
+    },
+    {
+      "key": "comment.oil-a",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "sample",
+      "category": "comment",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Demo comment bound to sample {{sampleId}} ({{sampleCode}}). Description echo: {{sampleDescription}}."
+    },
+    {
+      "key": "comment.oil-b",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "sample",
+      "category": "comment",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Second sample comment for {{sampleId}} only. It must not be printed on other samples."
+    },
+    {
+      "key": "conclusion.oil-a",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "sample",
+      "category": "conclusion",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Demo conclusion for sample {{sampleId}}: fictional screen complete for the listed analytes."
+    },
+    {
+      "key": "conclusion.oil-b",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "sample",
+      "category": "conclusion",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Demo conclusion for sample {{sampleId}}: one fictional limit is exceeded in this synthetic set."
+    },
+    {
+      "key": "result.note.pb",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "result",
+      "category": "resultNote",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Result note for {{analyteName}} on sample {{sampleId}}. Displayed result: {{resultDisplay}} {{unit}}."
+    },
+    {
+      "key": "method.note.01",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "method",
+      "category": "methodNote",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Method note for {{methodCode}}: {{methodName}}. Citation: {{referenceCitation}}"
+    },
+    {
+      "key": "approval.demo-block",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "section",
+      "category": "sectionIntro",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Visual label for {{signatoryName}}, {{signatoryRole}}. {{signatoryStatement}} Placeholder resolution for this block is limited to the approval section."
+    },
+    {
+      "key": "comment.stress",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "sample",
+      "category": "comment",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Short stress comment attached only to sample {{sampleId}}."
+    },
+    {
+      "key": "comment.stress.long",
+      "language": "en",
+      "versionLabel": "1.0.0",
+      "scope": "sample",
+      "category": "comment",
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "approvalStatus": "approved",
+      "body": "Stress comment for sample {{sampleId}}. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. This sentence is padding so the comment flows across the page without being scaled or clipped. "
+    }
+  ]
+}

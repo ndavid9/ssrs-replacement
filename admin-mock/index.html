@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Northline layout studio</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="eyebrow">Synthetic layout studio · browser only · no server</p>
+      <h1>Northline layout studio</h1>
+    </div>
+    <nav class="tabs" aria-label="Studio">
+      <button type="button" data-tab="schema">Schema</button>
+      <button type="button" data-tab="layout">Layout</button>
+      <button type="button" data-tab="json">JSON</button>
+    </nav>
+    <div class="top-actions">
+      <button type="button" id="exportBtn">Export JSON</button>
+      <label class="file">Import <input id="importFile" type="file" accept="application/json,.json" /></label>
+      <button type="button" id="resetBtn" class="ghost">Reset demo</button>
+    </div>
+  </header>
+  <div class="shell">
+    <aside class="types">
+      <h2>Report types</h2>
+      <div id="typeList"></div>
+      <form class="create" onsubmit="return false;">
+        <label>New report type <input id="newTypeName" placeholder="Residue Screen" /></label>
+        <button type="button" id="createType">Create</button>
+      </form>
+      <p class="hint">Food Export, Water Compliance, and Internal QC are examples. Each type chooses its own sections. Nothing here is a real certificate.</p>
+    </aside>
+    <main>
+      <section id="panel-schema">
+        <h2>Domain schema</h2>
+        <p>Multiplicities are fixed. A report type decides which of these domains are included, not a new relationship.</p>
+        <div id="diagram"></div>
+        <table class="schema">
+          <thead><tr><th>Domain</th><th>Multiplicity</th><th>Feed contract</th><th>Relationship</th></tr></thead>
+          <tbody>
+            <tr><td>Report</td><td>1</td><td>report-snapshot-v1</td><td>Root</td></tr>
+            <tr><td>Sample</td><td>1..*</td><td>report-snapshot-v1</td><td>Report has many samples</td></tr>
+            <tr><td>Test</td><td>1..*</td><td>report-snapshot-v1</td><td>Sample has many tests</td></tr>
+            <tr><td>Parameter</td><td>1..*</td><td>report-snapshot-v1</td><td>Test has many parameters</td></tr>
+            <tr><td>Result</td><td>0..1</td><td>report-snapshot-v1</td><td>One slot per sample, test, and parameter</td></tr>
+            <tr><td>Comments</td><td>0..*</td><td>text-catalog-v1</td><td>Scoped to report, sample, test, or result</td></tr>
+            <tr><td>Conclusions</td><td>0..*</td><td>text-catalog-v1</td><td>Scoped to report, sample, test, or result</td></tr>
+            <tr><td>MRL</td><td>0..*</td><td>mrl-fictional-v1</td><td>Limits per parameter, matched on matrix, jurisdiction, unit, date</td></tr>
+            <tr><td>Accreditation</td><td>0..*</td><td>accreditation-catalog-v1</td><td>Marks on a test or method</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="panel-layout" hidden>
+        <h2>Layout for this report type</h2>
+        <div class="settings">
+          <label>Name <input id="typeName" /></label>
+          <label>Samples per page <input id="samplesPerPage" type="number" min="1" max="12" /></label>
+          <label>Add a domain
+            <select id="addDomain"></select>
+          </label>
+          <button type="button" id="addSection">Add section</button>
+        </div>
+        <p class="hint">Drag a card or use Move up / Move down. Included sections print. Required sections may not be turned off. Feeds stay on the named contracts shown in the schema.</p>
+        <div id="sectionList"></div>
+      </section>
+      <section id="panel-json" hidden>
+        <h2>Layout document</h2>
+        <p class="hint">schemaVersion, feeds per domain, and the section tree. Import replaces what is stored in this browser.</p>
+        <pre id="jsonOut"></pre>
+      </section>
+    </main>
+    <aside class="rail">
+      <section class="rail-card">
+        <h2>Validation <span id="validationSummary" class="ok">No blocking errors</span></h2>
+        <ul id="validationList"></ul>
+      </section>
+      <section class="rail-card preview-card">
+        <h2>Live preview</h2>
+        <div id="previewDoc" class="sheet"></div>
+      </section>
+    </aside>
+  </div>
+  <script src="js/model.js"></script>
+  <script src="js/validate.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

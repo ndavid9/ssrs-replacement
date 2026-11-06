@@ -1,0 +1,19 @@
+@page "/admin/signatories"
+@model LabReport.Web.Pages.Admin.Signatories.IndexModel
+<section class="card">
+    <h2>Signatory blocks</h2>
+    <p>A template selects one of these ids. The picture is a bundled demo mark, not a signature scan and not a cryptographic signature. Adding a new image means a developer puts a file in the asset whitelist. This screen cannot upload one.</p>
+    @foreach (var signatory in Model.Signatories)
+    {
+        <article class="section-row">
+            @if (Model.Assets.IsApproved(signatory.AssetKey))
+            {
+                <img alt="Synthetic demo mark" src="@Model.Assets.DataUri(signatory.AssetKey)" width="220" />
+            }
+            <h3>@signatory.DisplayName</h3>
+            <p>@signatory.RoleTitle</p>
+            <p>@signatory.Statement</p>
+            <p class="small">@signatory.SignatoryId · asset @signatory.AssetKey · approved asset: @Model.Assets.IsApproved(signatory.AssetKey)</p>
+        </article>
+    }
+</section>

@@ -1,0 +1,95 @@
+@page "/admin/templates/{templateId}"
+@model LabReport.Web.Pages.Admin.Templates.EditModel
+@{
+    var template = Model.Template!;
+    var present = template.Sections.Select(section => section.Type).ToHashSet(StringComparer.Ordinal);
+    var available = SectionCatalog.All.Where(info => !present.Contains(info.Type)).ToList();
+    var firstSampleOrder = template.Sections.Where(section => section.Enabled && SectionCatalog.Get(section.Type).Placement == SectionPlacement.Sample).Select(section => section.Order).DefaultIfEmpty(int.MaxValue).Min();
+}
+<section class="card">
+    <h2>@template.Name</h2>
+    <p class="small">Version @template.Version. Updated @template.UpdatedUtc.ToString("u"). Handlers are a whitelist. Reordering, hiding columns, and adding the fictional-limit section do not require a new deployment. A genuinely new rendering type still needs a developer to add a handler and a Razor partial.</p>
+    @if (TempData["Error"] is string error)
+    {
+        <p class="errors">@error</p>
+    }
+    <form method="post" asp-page-handler="Save">
+        <div class="grid">
+            <label>Name <input name="name" value="@template.Name" /></label>
+            <label>Samples per group <input name="samplesPerPage" type="number" min="1" max="20" value="@template.SamplesPerPage" /></label>
+            <label>Result rows per chunk <input name="resultRowsPerChunk" type="number" min="8" max="40" value="@template.ResultRowsPerChunk" /></label>
+            <label>Paper
+                <select name="paper">
+                    <option selected="@(template.Paper == "A4")">A4</option>
+                    <option selected="@(template.Paper == "Letter")">Letter</option>
+                </select>
+            </label>
+            <label>Orientation
+                <select name="orientation">
+                    <option value="portrait" selected="@(template.Orientation == "portrait")">portrait</option>
+                    <option value="landscape" selected="@(template.Orientation == "landscape")">landscape</option>
+                </select>
+            </label>
+            <label>Top margin mm <input name="marginTopMm" type="number" value="@template.MarginTopMm" /></label>
+            <label>Bottom margin mm <input name="marginBottomMm" type="number" value="@template.MarginBottomMm" /></label>
+            <label>Side margin mm <input name="marginSideMm" type="number" value="@template.MarginSideMm" /></label>
+            <label>Jurisdiction <input name="jurisdiction" value="@template.Jurisdiction" /></label>
+            <label>Signatory
+                <select name="signatoryId">
+                    @foreach (var signatory in Model.Signatories)
+                    {
+                        <option value="@signatory.SignatoryId" selected="@(signatory.SignatoryId == template.SignatoryId)">@signatory.DisplayName</option>
+                    }
+                </select>
+            </label>
+        </div>
+        <h3>Sections</h3>
+        <p class="small">Sample sections repeat inside each sample group. A report section at or above the first sample section prints once before the samples. Every other report section prints once after them.</p>
+        @foreach (var item in template.Sections.OrderBy(item => item.Order))
+        {
+            var info = SectionCatalog.Get(item.Type);
+            var placement = info.Placement == SectionPlacement.Sample
+                ? "Repeats per sample"
+                : item.Order <= firstSampleOrder ? "Once, before samples" : "Once, after samples";
+            <div class="section-row">
+                <label><input type="checkbox" name="enabled" value="@item.InstanceId" checked="@item.Enabled" /> Enabled — @item.Type</label>
+                <p class="small">@info.Description · @placement · order @item.Order</p>
+                <label>Title <input name="title-@item.InstanceId" value="@item.Title" /></label>
+                @if (item.Columns.Count > 0)
+                {
+                    <p>Columns</p>
+                    @foreach (var column in item.Columns)
+                    {
+                        <label><input type="checkbox" name="column" value="@(item.InstanceId)|@column.Key" checked="@column.Visible" /> @column.Label</label>
+                    }
+                }
+                @foreach (var subsection in item.Subsections.OrderBy(sub => sub.Order))
+                {
+                    <label><input type="checkbox" name="subsection" value="@(item.InstanceId)|@subsection.Id" checked="@subsection.Enabled" /> Subsection</label>
+                    <input name="sub-@(item.InstanceId)-@subsection.Id" value="@subsection.Title" />
+                    <p class="small">Analyte group @subsection.AnalyteGroup</p>
+                }
+                <p class="actions">
+                    <button class="secondary" formaction="?handler=Move&amp;instanceId=@item.InstanceId&amp;direction=-1" formmethod="post" type="submit">Move up</button>
+                    <button class="secondary" formaction="?handler=Move&amp;instanceId=@item.InstanceId&amp;direction=1" formmethod="post" type="submit">Move down</button>
+                    <button class="secondary" formaction="?handler=Remove&amp;instanceId=@item.InstanceId" formmethod="post" type="submit">Remove</button>
+                </p>
+            </div>
+        }
+        <button type="submit">Save layout</button>
+    </form>
+    @if (available.Count > 0)
+    {
+        <form method="post" asp-page-handler="Add" class="actions" style="margin-top:16px">
+            <label>Add a supported section
+                <select name="addType">
+                    @foreach (var info in available)
+                    {
+                        <option value="@info.Type">@info.DefaultTitle (@info.Type)</option>
+                    }
+                </select>
+            </label>
+            <button type="submit">Add section</button>
+        </form>
+    }
+</section>

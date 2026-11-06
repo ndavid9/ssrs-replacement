@@ -1,0 +1,54 @@
+@page "/admin/texts"
+@model LabReport.Web.Pages.Admin.Texts.IndexModel
+<section class="card">
+    <h2>Text catalog</h2>
+    <p class="small">Approved text is chosen by key, language, and the report date. Placeholders are resolved only inside that text, for its scope. A new save adds a version. It does not rewrite the version a finished job already pinned.</p>
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <p class="errors">@Model.Error</p>
+    }
+    <table>
+        <thead><tr><th>Key</th><th>Version</th><th>Scope</th><th>Status</th><th>Effective</th><th>Body</th></tr></thead>
+        <tbody>
+        @foreach (var entry in Model.Entries)
+        {
+            <tr>
+                <td>@entry.Key</td>
+                <td>@entry.VersionLabel</td>
+                <td>@entry.Scope / @entry.Category</td>
+                <td>@entry.ApprovalStatus</td>
+                <td>@entry.EffectiveFrom.ToString("yyyy-MM-dd")</td>
+                <td>@entry.Body</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>
+@if (Model.CanEdit)
+{
+    <section class="card">
+        <h2>Add an approved version</h2>
+        <form method="post" class="grid">
+            <label>Key <input name="key" required /></label>
+            <label>Scope
+                <select name="scope">
+                    @foreach (var scope in Enum.GetValues<LabReport.Core.Models.TextScope>())
+                    {
+                        <option value="@scope">@scope</option>
+                    }
+                </select>
+            </label>
+            <label>Category
+                <select name="category">
+                    @foreach (var category in Enum.GetValues<LabReport.Core.Models.TextCategory>())
+                    {
+                        <option value="@category">@category</option>
+                    }
+                </select>
+            </label>
+            <label>Effective from <input name="effectiveFrom" type="date" value="2026-01-01" /></label>
+            <label style="grid-column:1/-1">Plain text <textarea name="body" required></textarea></label>
+            <button type="submit">Save new version</button>
+        </form>
+    </section>
+}

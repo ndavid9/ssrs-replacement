@@ -1,0 +1,103 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var sample = Model.Sample!;
+    var keys = new[] { "analyte", "result", "qualifier", "unit", "lod", "loq", "method" };
+    var visible = keys.Where(key => Columns.Visible(Model.Section, key)).ToList();
+}
+<section class="block tight">
+    <h3>@Model.Section.Title</h3>
+    @if (sample.Subsections.Count == 0)
+    {
+        <p>No result subsection is enabled for @sample.Sample.SampleId.</p>
+    }
+    @foreach (var subsection in sample.Subsections)
+    {
+        <h4>@subsection.Title</h4>
+        @if (subsection.Chunks.Count == 0)
+        {
+            <p>No results in this subsection for sample @sample.Sample.SampleId.</p>
+        }
+        @foreach (var chunk in subsection.Chunks)
+        {
+            @if (chunk.Continued)
+            {
+                <p class="continued">Sample @sample.Sample.SampleId continued, @subsection.Title, table @chunk.Number of @chunk.Count.</p>
+            }
+            <table class="grid">
+                <thead>
+                    <tr class="repeat-id"><th colspan="@visible.Count">Sample @sample.Sample.SampleId · @subsection.Title@(chunk.Continued ? " (continued)" : "")</th></tr>
+                    <tr>
+                        @foreach (var key in visible)
+                        {
+                            <th>@Columns.Label(Model.Section, key)</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in chunk.Rows)
+                    {
+                        var markers = sample.NoteMarkersByResult.TryGetValue(row.ResultId, out var found) ? found : Array.Empty<string>();
+                        <tr>
+                            @foreach (var key in visible)
+                            {
+                                <td>@Cell(key, row, markers)</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    @if (sample.ResultNotes.Count > 0)
+    {
+        <ol class="notes">
+            @foreach (var note in sample.ResultNotes)
+            {
+                <li id="note-@note.Marker"><span class="code">@note.Marker</span> @note.Text.PlainText <span class="code">result @note.ResultId</span></li>
+            }
+        </ol>
+    }
+</section>
+
+@functions {
+    private Microsoft.AspNetCore.Html.IHtmlContent Cell(string key, LabReport.Core.Models.ResultSnapshot row, IReadOnlyList<string> markers)
+    {
+        var builder = new Microsoft.AspNetCore.Html.HtmlContentBuilder();
+        switch (key)
+        {
+            case "analyte":
+                builder.Append(row.AnalyteName);
+                builder.AppendHtml(" <span class=\"code\">");
+                builder.Append(row.AnalyteCode);
+                builder.AppendHtml("</span>");
+                break;
+            case "result":
+                builder.Append(LabReport.Core.Services.ResultDisplay.Format(row));
+                foreach (var marker in markers)
+                {
+                    builder.AppendHtml("<sup>");
+                    builder.Append(marker);
+                    builder.AppendHtml("</sup>");
+                }
+                break;
+            case "qualifier":
+                builder.Append(row.Qualifier ?? "—");
+                break;
+            case "unit":
+                builder.Append(row.Unit ?? "—");
+                break;
+            case "lod":
+                builder.Append(LabReport.Core.Services.ResultDisplay.FormatDecimal(row.Lod));
+                break;
+            case "loq":
+                builder.Append(LabReport.Core.Services.ResultDisplay.FormatDecimal(row.Loq));
+                break;
+            case "method":
+                var number = LabReport.Core.Rendering.MethodIndex.Number(Model.Plan, row.MethodCode);
+                builder.Append(number is null ? "—" : number.Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                break;
+        }
+
+        return builder;
+    }
+}

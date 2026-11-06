@@ -1,0 +1,12 @@
+{
+  "catalogVersion": "2026.1",
+  "signatories": [
+    {
+      "signatoryId": "sig-demo-reviewer",
+      "displayName": "R. Quinn",
+      "roleTitle": "Synthetic layout reviewer",
+      "statement": "Approves the demo layout only. No laboratory authorization is claimed.",
+      "assetKey": "demo-mark"
+    }
+  ]
+}

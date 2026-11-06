@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSRS replacement — Research Ssrs Replacer</title>
+<style>
+  :root {
+    --bg: #f4efe6;
+    --card: #fffdf8;
+    --ink: #1c2430;
+    --muted: #5a6573;
+    --accent: #1e3a5f;
+    --warn: #9a3412;
+    --line: #e2d9c8;
+    --ok: #166534;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  header {
+    background: var(--accent);
+    color: #f8fafc;
+    padding: 2.2rem 1.5rem 2rem;
+  }
+  header .wrap, main, footer .wrap { max-width: 920px; margin: 0 auto; }
+  header h1 { margin: 0 0 0.4rem; font-size: 1.85rem; font-weight: 650; }
+  header p { margin: 0; opacity: 0.92; max-width: 42rem; }
+  .badge {
+    display: inline-block;
+    margin-top: 0.9rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.14);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+  }
+  main { padding: 1.75rem 1.5rem 3rem; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.25rem 1.35rem 1.4rem;
+    margin-bottom: 1.15rem;
+  }
+  h2 { margin: 0 0 0.75rem; font-size: 1.25rem; color: var(--accent); }
+  h3 { margin: 1.1rem 0 0.45rem; font-size: 1.02rem; }
+  p, li { color: var(--ink); }
+  .muted { color: var(--muted); }
+  a { color: #1d4ed8; }
+  code, pre {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.86em;
+  }
+  code {
+    background: #eee8dc;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+  pre {
+    background: #1c2430;
+    color: #e2e8f0;
+    padding: 0.95rem 1rem;
+    border-radius: 10px;
+    overflow-x: auto;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .warn {
+    border-left: 4px solid var(--warn);
+    background: #fff7ed;
+    padding: 0.75rem 1rem;
+    border-radius: 0 10px 10px 0;
+    color: #7c2d12;
+  }
+  .ok {
+    border-left: 4px solid var(--ok);
+    background: #f0fdf4;
+    padding: 0.75rem 1rem;
+    border-radius: 0 10px 10px 0;
+  }
+  figure {
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+  figure img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+  }
+  figcaption {
+    margin-top: 0.45rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+  }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .diagram {
+    background: #f8fafc;
+    border: 1px dashed #94a3b8;
+    border-radius: 10px;
+    padding: 1rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 0.82rem;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.45;
+    color: #0f172a;
+  }
+  footer {
+    padding: 1.25rem 1.5rem 2rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  ul.tight li { margin: 0.25rem 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>SSRS replacement research &amp; prototypes</h1>
+    <p>I am <strong>Research Ssrs Replacer</strong>. This repository is what we built together: research on cheaper ways to publish laboratory analytical PDFs, a runnable Razor + Playwright report desk, and a browser-only layout studio for curating domain permutations.</p>
+    <span class="badge">SYNTHETIC DATA · NOT LABORATORY CERTIFICATES · PRIVATE REPO</span>
+  </div>
+</header>
+<main>
+
+<section>
+  <h2>What we tried to achieve</h2>
+  <p>You asked me to study public laboratory-style analytical PDFs, understand how shops that rely on SSRS publish them, and propose a <strong>better, cheaper, easy</strong> path — then prove it with a mocked Razor HTML + Playwright prototype and an admin UI for layout permutations.</p>
+  <ul class="tight">
+    <li>Keep legal publication credible (immutable snapshots, hashes, scoped text, no silent reprint drift).</li>
+    <li>Make new sections (for example MRL) addable without rewriting the world — whitelist handlers + admin config.</li>
+    <li>Handle multi-sample pagination, comments/conclusions/disclaimers with text references, and safe signatures.</li>
+    <li>Expose data through named SQL contracts so anyone who needs a report can pull a frozen snapshot easily.</li>
+    <li>Give admins a JS mock to define permutations across Report, Sample, Tests, Parameters, Results, Comments, Conclusions, MRL, and Accreditation.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>The problem with SSRS (in this context)</h2>
+  <p>SSRS (often with URL-access PDF export) is a known quantity for many labs. It is not “bad.” The pain shows up when layouts become highly dynamic: optional sections per report type, multi-sample grouping, versioned legal wording, and MRL-style comparisons. RDL maintenance cost climbs, and admins cannot safely invent new visual blocks without a developer cycle anyway.</p>
+  <p class="muted">I did <em>not</em> prove that any specific public Eurofins PDF was produced by SSRS. Public method catalogs and one metadata preview informed structure; your premise that SSRS is the current production path was the product context.</p>
+</section>
+
+<section>
+  <h2>Recommendation</h2>
+  <div class="ok">
+    <strong>Hybrid:</strong> keep working SSRS for production certificates you already trust. <strong>Pilot</strong> Razor HTML + Microsoft.Playwright Chromium for new or dynamic layouts. Migrate certificate types only after side-by-side PDF comparison and legal sign-off.
+  </div>
+  <h3>Inexpensive options we weighed</h3>
+  <table>
+    <thead><tr><th>Option</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Razor + Playwright</td><td>Chosen for the working prototype. .NET MIT; Playwright Apache-2.0. HTML-first, familiar to web teams.</td></tr>
+      <tr><td>WeasyPrint</td><td>HTML/CSS → PDF without a browser. Fine for simpler print CSS; less Chromium fidelity for complex HTML.</td></tr>
+      <tr><td>QuestPDF</td><td>Code-first .NET PDF. Community License is <strong>conditional</strong> (check current terms). Not used here.</td></tr>
+      <tr><td>Paid report SaaS / designers</td><td>Skipped — you asked not to recommend expensive tools.</td></tr>
+    </tbody>
+  </table>
+  <p>Fuller notes: <a href="docs/research.md">docs/research.md</a>.</p>
+</section>
+
+<section>
+  <h2>Architecture (report desk)</h2>
+  <div class="diagram">Authorize → named feed (JSON or SQL export proc)
+    → validate + text resolve + fictional limits
+    → pin snapshot/template/texts (SHA-256)
+    → BackgroundService queue (capped concurrency)
+    → Razor whitelist sections
+    → Playwright Chromium PDF (network locked down)
+    → store PDF + hash; crypto sign = later hook</div>
+  <p>Admins reorder / enable / retitle whitelisted sections and set <code>samples per group</code>. Developers add new visual types (catalog + Razor partial). Feeds are named contracts — not free-form SQL. Signatures are registered blocks, not string replacement. Details: <a href="docs/prototype/ARCHITECTURE.md">ARCHITECTURE.md</a>.</p>
+</section>
+
+<section>
+  <h2>What’s in this repository</h2>
+  <table>
+    <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td><a href="prototype/"><code>prototype/</code></a></td><td>ASP.NET Core “Northline report desk” — Razor views, Playwright PDF jobs, admin pages, SQL scripts, tests.</td></tr>
+      <tr><td><a href="admin-mock/"><code>admin-mock/</code></a></td><td>Static layout studio — schema, editor, validation, JSON export; <code>localStorage</code> only.</td></tr>
+      <tr><td><a href="docs/"><code>docs/</code></a></td><td>Research, copied prototype docs, <a href="docs/sample-layout.json">sample-layout.json</a>, sample PDFs.</td></tr>
+      <tr><td><a href="docs/sample-output/"><code>docs/sample-output/</code></a></td><td><code>report-without-mrl.pdf</code>, <code>report-with-mrl.pdf</code>, <code>report-stress-test.pdf</code> (+ extras).</td></tr>
+      <tr><td><a href="media/"><code>media/</code></a></td><td><a href="media/prototype-walkthrough.mp4">prototype-walkthrough.mp4</a>, <a href="media/layout-studio-walkthrough.mp4">layout-studio-walkthrough.mp4</a>.</td></tr>
+      <tr><td><a href="screenshots/"><code>screenshots/</code></a></td><td>UI captures embedded below.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>How to run</h2>
+  <h3>Report desk (Razor + Playwright)</h3>
+  <pre><code>cd prototype
+dotnet run --project src/LabReport.Web --urls http://127.0.0.1:5891</code></pre>
+  <p>Needs .NET 10 SDK and Playwright Chromium (see <a href="prototype/README.md">prototype/README.md</a>). Open <code>http://127.0.0.1:5891</code>. There is <strong>no login</strong> — local demo only.</p>
+  <h3>Layout studio</h3>
+  <pre><code>python3 -m http.server 8766 --directory admin-mock</code></pre>
+  <p>Open <code>http://127.0.0.1:8766/</code>. Or open <code>admin-mock/index.html</code> directly.</p>
+</section>
+
+<section>
+  <h2>Screenshots</h2>
+  <div class="grid">
+    <figure>
+      <img src="screenshots/prototype-ui.png" alt="Northline report desk home">
+      <figcaption>Report desk — queue PDF / preview from the JSON feed.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/layout-studio-schema.png" alt="Layout studio schema view">
+      <figcaption>Layout studio — domain schema and multiplicities.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/layout-studio-editor.png" alt="Layout studio editor">
+      <figcaption>Layout studio — section editor with live preview.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/layout-studio-validation.png" alt="Layout studio validation errors">
+      <figcaption>Layout studio — validation when required domains are missing.</figcaption>
+    </figure>
+  </div>
+  <figure>
+    <img src="screenshots/layout-studio-preview.png" alt="Layout studio preview with results table">
+    <figcaption>Layout studio — mock preview including results / fictional limit columns.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Honest limitations</h2>
+  <div class="warn">
+    <ul class="tight">
+      <li>All data is <strong>mocked / synthetic</strong>. Every PDF carries a permanent banner: not a laboratory certificate.</li>
+      <li>SQL scripts under <code>prototype/sql/</code> were <strong>never run</strong> against a SQL Server in the build environment. Default feed is JSON.</li>
+      <li>Layout studio is <strong>localStorage only</strong> — no backend, no auth, no multi-user sync.</li>
+      <li>The prototype walkthrough video shows the desk UI; it does <strong>not</strong> open the generated PDFs on screen (download them from <a href="docs/sample-output/">docs/sample-output/</a>).</li>
+      <li>No real identity provider, no cryptographic signing, no PDF/A, no durable external queue.</li>
+      <li>Public Mizoram PDF returned HTTP 403 and was not used as a layout source.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Source inspection (what we actually opened)</h2>
+  <p>See <a href="docs/prototype/SOURCE-INSPECTION.md">SOURCE-INSPECTION.md</a>. Short version: Eurofins APAC method summaries PDF (structure only), Scribd metadata page 1 only, Mizoram unreachable (403). No logos, accreditation marks, or personal data were copied into the demo.</p>
+</section>
+
+</main>
+<footer>
+  <div class="wrap">
+    Written by Research Ssrs Replacer for Nishant David · private repo <code>ndavid9/ssrs-replacement</code>
+  </div>
+</footer>
+</body>
+</html>

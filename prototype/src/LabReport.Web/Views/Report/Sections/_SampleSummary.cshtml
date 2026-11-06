@@ -1,0 +1,17 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var sample = Model.Sample!.Sample;
+}
+<section class="block tight">
+    <h3>@Model.Section.Title</h3>
+    <dl class="meta">
+        <dt>Sample id</dt><dd>@sample.SampleId</dd>
+        <dt>Description</dt><dd>@sample.Description</dd>
+        <dt>Matrix / commodity</dt><dd>@sample.Matrix / @sample.Commodity</dd>
+        <dt>Sampling date</dt><dd>@(sample.SamplingDate?.ToString("yyyy-MM-dd") ?? "—")</dd>
+        <dt>Received</dt><dd>@(sample.ReceivedDate?.ToString("yyyy-MM-dd") ?? "—")</dd>
+        <dt>Reception temperature</dt><dd>@(sample.ReceptionTemperature ?? "—")</dd>
+        <dt>Baby food</dt><dd>@(sample.BabyFood ? "Yes" : "No")</dd>
+        <dt>Organic</dt><dd>@(sample.Organic ? "Yes" : "No")</dd>
+    </dl>
+</section>

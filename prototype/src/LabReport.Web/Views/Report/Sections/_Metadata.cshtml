@@ -1,0 +1,40 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var report = Model.Plan.Snapshot;
+}
+<section class="block">
+    <h2>@Model.Section.Title</h2>
+    <dl class="meta">
+        <dt>Report number</dt><dd>@report.ReportNumber</dd>
+        <dt>Report id</dt><dd>@report.ReportId</dd>
+        <dt>Report date</dt><dd>@report.ReportDate.ToString("yyyy-MM-dd")</dd>
+        <dt>Title</dt><dd>@report.Title</dd>
+        <dt>Client</dt><dd>@report.ClientName</dd>
+        <dt>Client reference</dt><dd>@(report.ClientReference ?? "—")</dd>
+        <dt>Matrix</dt><dd>@report.Matrix</dd>
+        <dt>Commodity</dt><dd>@report.Commodity</dd>
+        <dt>Origin</dt><dd>@(report.Origin ?? "—")</dd>
+        <dt>Ordered by</dt><dd>@(report.OrderedBy ?? "—")</dd>
+        <dt>Submitted by</dt><dd>@(report.SubmittedBy ?? "—")</dd>
+        <dt>Source feed</dt><dd>@report.SourceFeed</dd>
+        <dt>Source revision</dt><dd>@report.SourceRevision</dd>
+        <dt>Template</dt><dd>@Model.Plan.Template.TemplateId version @Model.Plan.Template.Version</dd>
+    </dl>
+    <table class="grid">
+        <thead>
+            <tr><th>Sample id</th><th>Code</th><th>Matrix</th><th>Received</th><th>Results on file</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var sample in report.Samples)
+            {
+                <tr>
+                    <td>@sample.SampleId</td>
+                    <td>@sample.SampleCode</td>
+                    <td>@sample.Matrix</td>
+                    <td>@(sample.ReceivedDate?.ToString("yyyy-MM-dd") ?? "—")</td>
+                    <td>@sample.Results.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

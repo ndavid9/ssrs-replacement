@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Northline report desk</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="banner-demo">Local demo only. There is no authentication on this site. Do not deploy it. Every sample PDF is synthetic and is not a laboratory certificate.</div>
+    <div class="wrap">
+        <header class="top">
+            <div>
+                <h1>Northline report desk</h1>
+                <p>Preview, queue, and print fictional analytical reports.</p>
+            </div>
+            <nav>
+                <a href="/">Desk</a>
+                <a href="/jobs">Jobs</a>
+                <a href="/admin/templates">Templates</a>
+                <a href="/admin/feeds">Feeds</a>
+                <a href="/admin/texts">Texts</a>
+                <a href="/admin/limits">Limits</a>
+                <a href="/admin/signatories">Signatories</a>
+            </nav>
+        </header>
+        @RenderBody()
+    </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+@page
+@model LabReport.Web.Pages.IndexModel
+<section class="card">
+    <h2>Reports on the @Model.Provider feed</h2>
+    <p class="small">A generate request authorizes the demo principal, loads the named feed contract, pins the snapshot with the template and text versions, and queues a Razor plus Chromium job. Opening a preview does not publish a PDF.</p>
+    @if (Model.Reports.Count == 0)
+    {
+        <p>No reports are available for the demo tenant.</p>
+    }
+    else
+    {
+        <table>
+            <thead><tr><th>Report</th><th>Title</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+            @foreach (var report in Model.Reports)
+            {
+                <tr>
+                    <td>@report.ReportNumber<br /><span class="small">@report.ReportId</span></td>
+                    <td>@report.Title</td>
+                    <td>@report.ReportDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <form method="post" asp-page-handler="Generate" class="actions">
+                            <input type="hidden" name="reportId" value="@report.ReportId" />
+                            <label>Template
+                                <select name="templateId">
+                                    @foreach (var template in Model.Templates)
+                                    {
+                                        <option value="@template.TemplateId">@template.Name (@template.SamplesPerPage / page)</option>
+                                    }
+                                </select>
+                            </label>
+                            <label>Samples per group
+                                <input name="samplesPerPage" type="number" min="1" max="20" value="2" />
+                            </label>
+                            <button type="submit">Generate PDF</button>
+                            <a class="button secondary" href="/preview/@report.ReportId?templateId=@(report.ReportId.Contains("STRESS") ? "analytical-stress" : "analytical-default")&amp;samplesPerPage=2">Preview</a>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</section>

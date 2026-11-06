@@ -1,0 +1,27 @@
+@page "/jobs"
+@model LabReport.Web.Pages.Jobs.IndexModel
+<section class="card">
+    <h2>Render jobs</h2>
+    @if (Model.Jobs.Count == 0)
+    {
+        <p>No render jobs yet. Generate a report from the desk.</p>
+    }
+    else
+    {
+        <table>
+            <thead><tr><th>Created</th><th>Report</th><th>Status</th><th>Attempt</th><th></th></tr></thead>
+            <tbody>
+            @foreach (var job in Model.Jobs)
+            {
+                <tr>
+                    <td>@job.CreatedUtc.ToString("u")</td>
+                    <td>@job.ReportId<br /><span class="small">@job.TemplateId v@(job.TemplateVersion)</span></td>
+                    <td class="status status-@job.Status">@job.Status</td>
+                    <td>@job.Attempt</td>
+                    <td><a href="/jobs/@job.Id.ToString("N")">Open</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</section>

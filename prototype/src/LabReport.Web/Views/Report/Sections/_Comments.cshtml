@@ -1,0 +1,19 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var sample = Model.Sample!;
+}
+<section class="block tight">
+    <h3>@Model.Section.Title <span>for @sample.Sample.SampleId</span></h3>
+    @if (sample.Comments.Count == 0)
+    {
+        <p>No comment is on file for sample @sample.Sample.SampleId.</p>
+    }
+    else
+    {
+        foreach (var text in sample.Comments)
+        {
+            <p class="prose">@text.PlainText</p>
+            <p class="code">Text @text.Key @text.VersionLabel, scope sample, sample @sample.Sample.SampleId</p>
+        }
+    }
+</section>

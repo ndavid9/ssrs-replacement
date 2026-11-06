@@ -1,0 +1,32 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var signatory = Model.Plan.Signatory;
+    var intro = Model.Plan.SectionIntros.TryGetValue(Model.Section.InstanceId, out var texts) ? texts : [];
+}
+<section class="block approval">
+    <h2>@Model.Section.Title</h2>
+    @if (signatory is null)
+    {
+        <p>No signatory block is selected.</p>
+    }
+    else
+    {
+        <div class="signatory">
+            @if (!string.IsNullOrEmpty(Model.Plan.SignatoryDataUri))
+            {
+                <img alt="Synthetic demo mark for @signatory.DisplayName. Not a cryptographic signature." src="@Model.Plan.SignatoryDataUri" />
+            }
+            <div>
+                <p><strong>@signatory.DisplayName</strong></p>
+                <p>@signatory.RoleTitle</p>
+                <p>@signatory.Statement</p>
+                <p class="code">Signatory id @signatory.SignatoryId · asset @signatory.AssetKey</p>
+            </div>
+        </div>
+    }
+    @foreach (var text in intro)
+    {
+        <p class="prose">@text.PlainText</p>
+    }
+    <p class="note">This label is not a digital signature, not a certificate, and not proof that a person approved a laboratory result. A cryptographic signature would be applied to the finished PDF bytes by a separate hook after rendering.</p>
+</section>

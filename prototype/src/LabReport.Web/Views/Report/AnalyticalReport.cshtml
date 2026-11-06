@@ -1,0 +1,67 @@
+@model LabReport.Core.Rendering.RenderPlan
+@{
+    Layout = null;
+}
+@if (Model.IsPreview)
+{
+    <div class="preview-ribbon">
+        <strong>Demo preview.</strong> This page is not a released artifact and no PDF was published by opening it.
+        <a href="/">Back to the desk</a>
+    </div>
+}
+<article class="sheet">
+    <p class="banner">SYNTHETIC DATA / NOT A VALID LABORATORY CERTIFICATE</p>
+    <p class="banner-sub">Northline Demonstration Bench. Fictional client, results, methods, and limits. Not an accredited document.</p>
+    @foreach (var section in Model.BeforeSamples)
+    {
+        <partial name="Sections/_Dispatch" model="new SectionFrame(Model, section, null)" />
+    }
+    @foreach (var group in Model.Groups)
+    {
+        <section class="sample-group">
+            <p class="group-banner">Sample group @group.Number of @group.Count. This group starts @group.Samples.Count new sample@(group.Samples.Count == 1 ? "" : "s") out of a configured maximum of @Model.Template.SamplesPerPage. A long sample continues on later physical pages; this number is not a promise of one sheet.</p>
+            <ul class="group-ids">
+                @foreach (var member in group.Samples)
+                {
+                    <li>@member.Sample.SampleId</li>
+                }
+            </ul>
+            @foreach (var sample in group.Samples)
+            {
+                <section class="sample-block" id="sample-@sample.Sample.SampleId">
+                    <h2>Sample @sample.Sample.SampleId <span>code @sample.Sample.SampleCode</span></h2>
+                    @foreach (var section in Model.PerSample)
+                    {
+                        <partial name="Sections/_Dispatch" model="new SectionFrame(Model, section, sample)" />
+                    }
+                    @if (sample.Withheld.Count > 0)
+                    {
+                        <div class="withheld">
+                            <p>Results withheld from the analytical tables for @sample.Sample.SampleId. They remain in the snapshot.</p>
+                            <ul>
+                                @foreach (var item in sample.Withheld)
+                                {
+                                    <li>@item.AnalyteCode — @item.Reason</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </section>
+            }
+        </section>
+    }
+    @if (Model.ReportConclusions.Count > 0)
+    {
+        <section class="block">
+            <h2>Report conclusion</h2>
+            @foreach (var text in Model.ReportConclusions)
+            {
+                <p class="prose">@text.PlainText</p>
+            }
+        </section>
+    }
+    @foreach (var section in Model.AfterSamples)
+    {
+        <partial name="Sections/_Dispatch" model="new SectionFrame(Model, section, null)" />
+    }
+</article>

@@ -1,0 +1,18 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var sample = Model.Sample!;
+}
+<section class="block tight">
+    <h3>@Model.Section.Title <span>for @sample.Sample.SampleId</span></h3>
+    @if (sample.Conclusions.Count == 0)
+    {
+        <p>No sample conclusion is on file for sample @sample.Sample.SampleId.</p>
+    }
+    else
+    {
+        foreach (var text in sample.Conclusions)
+        {
+            <p class="prose">@text.PlainText</p>
+        }
+    }
+</section>

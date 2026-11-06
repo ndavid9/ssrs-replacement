@@ -1,0 +1,1401 @@
+{
+  "schemaVersion": "1.0",
+  "feeds": {
+    "report": "report-snapshot-v1",
+    "sample": "report-snapshot-v1",
+    "test": "report-snapshot-v1",
+    "parameter": "report-snapshot-v1",
+    "result": "report-snapshot-v1",
+    "comment": "text-catalog-v1",
+    "conclusion": "text-catalog-v1",
+    "mrl": "mrl-fictional-v1",
+    "accreditation": "accreditation-catalog-v1"
+  },
+  "reportTypes": [
+    {
+      "id": "food-export",
+      "name": "Food Export",
+      "samplesPerPage": 2,
+      "sections": [
+        {
+          "instanceId": "report-oulo0w",
+          "domain": "report",
+          "title": "Report",
+          "enabled": true,
+          "required": true,
+          "order": 10,
+          "columns": [
+            {
+              "key": "reportNumber",
+              "label": "Report number",
+              "visible": true
+            },
+            {
+              "key": "title",
+              "label": "Title",
+              "visible": true
+            },
+            {
+              "key": "client",
+              "label": "Client",
+              "visible": true
+            },
+            {
+              "key": "reportDate",
+              "label": "Report date",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "sample-2a2hyq",
+          "domain": "sample",
+          "title": "Sample",
+          "enabled": true,
+          "required": true,
+          "order": 20,
+          "columns": [
+            {
+              "key": "sampleId",
+              "label": "Sample id",
+              "visible": true
+            },
+            {
+              "key": "description",
+              "label": "Description",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "received",
+              "label": "Received",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "test-p6nt0g",
+          "domain": "test",
+          "title": "Test",
+          "enabled": true,
+          "required": false,
+          "order": 30,
+          "columns": [
+            {
+              "key": "testCode",
+              "label": "Test code",
+              "visible": true
+            },
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "accredited",
+              "label": "Accredited",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "parameter-pofbna",
+          "domain": "parameter",
+          "title": "Parameter",
+          "enabled": true,
+          "required": false,
+          "order": 40,
+          "columns": [
+            {
+              "key": "name",
+              "label": "Parameter",
+              "visible": true
+            },
+            {
+              "key": "code",
+              "label": "Code",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            },
+            {
+              "key": "lod",
+              "label": "LOD",
+              "visible": true
+            },
+            {
+              "key": "loq",
+              "label": "LOQ",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "result-noxg9k",
+          "domain": "result",
+          "title": "Result",
+          "enabled": true,
+          "required": true,
+          "order": 50,
+          "columns": [
+            {
+              "key": "display",
+              "label": "Result",
+              "visible": true
+            },
+            {
+              "key": "qualifier",
+              "label": "Qualifier",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "comment-05foiz",
+          "domain": "comment",
+          "title": "Comments",
+          "enabled": true,
+          "required": false,
+          "order": 60,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Comment",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "report",
+            "sample"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "conclusion-rpyn11",
+          "domain": "conclusion",
+          "title": "Conclusions",
+          "enabled": true,
+          "required": false,
+          "order": 70,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Conclusion",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "report",
+            "sample"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "mrl-xbsza1",
+          "domain": "mrl",
+          "title": "MRL",
+          "enabled": true,
+          "required": false,
+          "order": 80,
+          "columns": [
+            {
+              "key": "limit",
+              "label": "Fictional limit",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Limit unit",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            },
+            {
+              "key": "evaluation",
+              "label": "Evaluation",
+              "visible": true
+            },
+            {
+              "key": "effective",
+              "label": "Effective",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": {
+            "jurisdiction": "FICTION-ZONE-7",
+            "requireUnitMatch": true,
+            "showNotEvaluated": true
+          },
+          "accreditation": null
+        },
+        {
+          "instanceId": "accreditation-h5weet",
+          "domain": "accreditation",
+          "title": "Accreditation",
+          "enabled": true,
+          "required": false,
+          "order": 90,
+          "columns": [
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "status",
+              "label": "Status",
+              "visible": true
+            },
+            {
+              "key": "mark",
+              "label": "Mark",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": {
+            "footnoteNonAccredited": true,
+            "mark": "†"
+          }
+        }
+      ]
+    },
+    {
+      "id": "water-compliance",
+      "name": "Water Compliance",
+      "samplesPerPage": 1,
+      "sections": [
+        {
+          "instanceId": "report-2j0ze5",
+          "domain": "report",
+          "title": "Report",
+          "enabled": true,
+          "required": true,
+          "order": 10,
+          "columns": [
+            {
+              "key": "reportNumber",
+              "label": "Report number",
+              "visible": true
+            },
+            {
+              "key": "title",
+              "label": "Title",
+              "visible": true
+            },
+            {
+              "key": "client",
+              "label": "Client",
+              "visible": true
+            },
+            {
+              "key": "reportDate",
+              "label": "Report date",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "sample-rj1vi9",
+          "domain": "sample",
+          "title": "Sample",
+          "enabled": true,
+          "required": true,
+          "order": 20,
+          "columns": [
+            {
+              "key": "sampleId",
+              "label": "Sample id",
+              "visible": true
+            },
+            {
+              "key": "description",
+              "label": "Description",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "received",
+              "label": "Received",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": "water"
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "test-cvre3n",
+          "domain": "test",
+          "title": "Test",
+          "enabled": true,
+          "required": false,
+          "order": 30,
+          "columns": [
+            {
+              "key": "testCode",
+              "label": "Test code",
+              "visible": true
+            },
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "accredited",
+              "label": "Accredited",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "parameter-0okjue",
+          "domain": "parameter",
+          "title": "Parameter",
+          "enabled": true,
+          "required": false,
+          "order": 40,
+          "columns": [
+            {
+              "key": "name",
+              "label": "Parameter",
+              "visible": true
+            },
+            {
+              "key": "code",
+              "label": "Code",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            },
+            {
+              "key": "lod",
+              "label": "LOD",
+              "visible": true
+            },
+            {
+              "key": "loq",
+              "label": "LOQ",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "result-ku6991",
+          "domain": "result",
+          "title": "Result",
+          "enabled": true,
+          "required": true,
+          "order": 50,
+          "columns": [
+            {
+              "key": "display",
+              "label": "Result",
+              "visible": true
+            },
+            {
+              "key": "qualifier",
+              "label": "Qualifier",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "comment-y06t0z",
+          "domain": "comment",
+          "title": "Comments",
+          "enabled": true,
+          "required": false,
+          "order": 60,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Comment",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "sample",
+            "result"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "conclusion-vkf3u9",
+          "domain": "conclusion",
+          "title": "Conclusions",
+          "enabled": true,
+          "required": false,
+          "order": 70,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Conclusion",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "report"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "mrl-ycxgh4",
+          "domain": "mrl",
+          "title": "MRL",
+          "enabled": false,
+          "required": false,
+          "order": 80,
+          "columns": [
+            {
+              "key": "limit",
+              "label": "Fictional limit",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Limit unit",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            },
+            {
+              "key": "evaluation",
+              "label": "Evaluation",
+              "visible": true
+            },
+            {
+              "key": "effective",
+              "label": "Effective",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": {
+            "jurisdiction": "FICTION-ZONE-7",
+            "requireUnitMatch": true,
+            "showNotEvaluated": true
+          },
+          "accreditation": null
+        },
+        {
+          "instanceId": "accreditation-npy5o5",
+          "domain": "accreditation",
+          "title": "Accreditation",
+          "enabled": true,
+          "required": false,
+          "order": 90,
+          "columns": [
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "status",
+              "label": "Status",
+              "visible": true
+            },
+            {
+              "key": "mark",
+              "label": "Mark",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": {
+            "footnoteNonAccredited": true,
+            "mark": "†"
+          }
+        }
+      ]
+    },
+    {
+      "id": "internal-qc",
+      "name": "Internal QC",
+      "samplesPerPage": 3,
+      "sections": [
+        {
+          "instanceId": "report-uv2f0b",
+          "domain": "report",
+          "title": "Report",
+          "enabled": true,
+          "required": true,
+          "order": 10,
+          "columns": [
+            {
+              "key": "reportNumber",
+              "label": "Report number",
+              "visible": true
+            },
+            {
+              "key": "title",
+              "label": "Title",
+              "visible": true
+            },
+            {
+              "key": "client",
+              "label": "Client",
+              "visible": true
+            },
+            {
+              "key": "reportDate",
+              "label": "Report date",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "sample-3hf38g",
+          "domain": "sample",
+          "title": "Sample",
+          "enabled": true,
+          "required": true,
+          "order": 20,
+          "columns": [
+            {
+              "key": "sampleId",
+              "label": "Sample id",
+              "visible": true
+            },
+            {
+              "key": "description",
+              "label": "Description",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "received",
+              "label": "Received",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "test-ngoxvy",
+          "domain": "test",
+          "title": "Test",
+          "enabled": true,
+          "required": false,
+          "order": 30,
+          "columns": [
+            {
+              "key": "testCode",
+              "label": "Test code",
+              "visible": true
+            },
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "accredited",
+              "label": "Accredited",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "parameter-3d435w",
+          "domain": "parameter",
+          "title": "Parameter",
+          "enabled": true,
+          "required": false,
+          "order": 40,
+          "columns": [
+            {
+              "key": "name",
+              "label": "Parameter",
+              "visible": true
+            },
+            {
+              "key": "code",
+              "label": "Code",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            },
+            {
+              "key": "lod",
+              "label": "LOD",
+              "visible": true
+            },
+            {
+              "key": "loq",
+              "label": "LOQ",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "result-agrqi5",
+          "domain": "result",
+          "title": "Result",
+          "enabled": true,
+          "required": false,
+          "order": 50,
+          "columns": [
+            {
+              "key": "display",
+              "label": "Result",
+              "visible": true
+            },
+            {
+              "key": "qualifier",
+              "label": "Qualifier",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "comment-ew0ccn",
+          "domain": "comment",
+          "title": "Comments",
+          "enabled": true,
+          "required": false,
+          "order": 60,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Comment",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "sample"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "conclusion-a9ixg6",
+          "domain": "conclusion",
+          "title": "Conclusions",
+          "enabled": false,
+          "required": false,
+          "order": 70,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Conclusion",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "sample"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "mrl-4499d0",
+          "domain": "mrl",
+          "title": "MRL",
+          "enabled": false,
+          "required": false,
+          "order": 80,
+          "columns": [
+            {
+              "key": "limit",
+              "label": "Fictional limit",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Limit unit",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            },
+            {
+              "key": "evaluation",
+              "label": "Evaluation",
+              "visible": true
+            },
+            {
+              "key": "effective",
+              "label": "Effective",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": {
+            "jurisdiction": "FICTION-ZONE-7",
+            "requireUnitMatch": true,
+            "showNotEvaluated": true
+          },
+          "accreditation": null
+        },
+        {
+          "instanceId": "accreditation-cfv9sg",
+          "domain": "accreditation",
+          "title": "Accreditation",
+          "enabled": false,
+          "required": false,
+          "order": 90,
+          "columns": [
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "status",
+              "label": "Status",
+              "visible": true
+            },
+            {
+              "key": "mark",
+              "label": "Mark",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": {
+            "footnoteNonAccredited": true,
+            "mark": "†"
+          }
+        }
+      ]
+    },
+    {
+      "id": "residue-screen",
+      "name": "Residue Screen",
+      "samplesPerPage": 1,
+      "sections": [
+        {
+          "instanceId": "report-hh7v3d",
+          "domain": "report",
+          "title": "Report",
+          "enabled": true,
+          "required": true,
+          "order": 10,
+          "columns": [
+            {
+              "key": "reportNumber",
+              "label": "Report number",
+              "visible": true
+            },
+            {
+              "key": "title",
+              "label": "Title",
+              "visible": true
+            },
+            {
+              "key": "client",
+              "label": "Client",
+              "visible": true
+            },
+            {
+              "key": "reportDate",
+              "label": "Report date",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "sample-j6ahnm",
+          "domain": "sample",
+          "title": "Sample",
+          "enabled": true,
+          "required": true,
+          "order": 20,
+          "columns": [
+            {
+              "key": "sampleId",
+              "label": "Sample id",
+              "visible": true
+            },
+            {
+              "key": "description",
+              "label": "Description",
+              "visible": true
+            },
+            {
+              "key": "matrix",
+              "label": "Matrix",
+              "visible": true
+            },
+            {
+              "key": "received",
+              "label": "Received",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "test-93lpps",
+          "domain": "test",
+          "title": "Test",
+          "enabled": true,
+          "required": false,
+          "order": 30,
+          "columns": [
+            {
+              "key": "testCode",
+              "label": "Test code",
+              "visible": true
+            },
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "accredited",
+              "label": "Accredited",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "parameter-15nchr",
+          "domain": "parameter",
+          "title": "Parameter",
+          "enabled": true,
+          "required": false,
+          "order": 40,
+          "columns": [
+            {
+              "key": "name",
+              "label": "Parameter",
+              "visible": true
+            },
+            {
+              "key": "code",
+              "label": "Code",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            },
+            {
+              "key": "lod",
+              "label": "LOD",
+              "visible": true
+            },
+            {
+              "key": "loq",
+              "label": "LOQ",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "result-j65sjw",
+          "domain": "result",
+          "title": "Result",
+          "enabled": true,
+          "required": true,
+          "order": 50,
+          "columns": [
+            {
+              "key": "display",
+              "label": "Result",
+              "visible": true
+            },
+            {
+              "key": "qualifier",
+              "label": "Qualifier",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Unit",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "comment-fcnn4s",
+          "domain": "comment",
+          "title": "Comments",
+          "enabled": true,
+          "required": false,
+          "order": 60,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Comment",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "report",
+            "sample"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "conclusion-ilhjbx",
+          "domain": "conclusion",
+          "title": "Conclusions",
+          "enabled": true,
+          "required": false,
+          "order": 80,
+          "columns": [
+            {
+              "key": "body",
+              "label": "Conclusion",
+              "visible": true
+            },
+            {
+              "key": "anchor",
+              "label": "Attached to",
+              "visible": true
+            }
+          ],
+          "scopes": [
+            "report",
+            "sample"
+          ],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": null
+        },
+        {
+          "instanceId": "mrl-khxbsd",
+          "domain": "mrl",
+          "title": "MRL",
+          "enabled": true,
+          "required": false,
+          "order": 70,
+          "columns": [
+            {
+              "key": "limit",
+              "label": "Fictional limit",
+              "visible": true
+            },
+            {
+              "key": "unit",
+              "label": "Limit unit",
+              "visible": true
+            },
+            {
+              "key": "jurisdiction",
+              "label": "Jurisdiction",
+              "visible": true
+            },
+            {
+              "key": "evaluation",
+              "label": "Evaluation",
+              "visible": true
+            },
+            {
+              "key": "effective",
+              "label": "Effective",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": {
+            "jurisdiction": "FICTION-ZONE-7",
+            "requireUnitMatch": true,
+            "showNotEvaluated": true
+          },
+          "accreditation": null
+        },
+        {
+          "instanceId": "accreditation-64sti8",
+          "domain": "accreditation",
+          "title": "Accreditation",
+          "enabled": false,
+          "required": false,
+          "order": 90,
+          "columns": [
+            {
+              "key": "methodName",
+              "label": "Method",
+              "visible": true
+            },
+            {
+              "key": "status",
+              "label": "Status",
+              "visible": true
+            },
+            {
+              "key": "mark",
+              "label": "Mark",
+              "visible": true
+            }
+          ],
+          "scopes": [],
+          "rules": {
+            "showWhenHasData": false,
+            "hideIfNotAccredited": false,
+            "matrixEquals": ""
+          },
+          "mrl": null,
+          "accreditation": {
+            "footnoteNonAccredited": true,
+            "mark": "†"
+          }
+        }
+      ]
+    }
+  ]
+}

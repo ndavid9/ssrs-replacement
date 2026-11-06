@@ -1,0 +1,10 @@
+bin/
+obj/
+App_Data/
+.vs/
+*.user
+.env
+*.pdf
+TestResults/
+.DS_Store
+

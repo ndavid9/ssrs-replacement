@@ -1,0 +1,61 @@
+@page "/admin/limits"
+@model LabReport.Web.Pages.Admin.Limits.IndexModel
+<section class="card">
+    <h2>Fictional limits</h2>
+    <p class="small">These rows are not legal residue limits. The comparison section uses them only when jurisdiction, matrix, commodity, unit, and dates match. Adding a row here does not by itself print a section. Add the fictional-limit section on a template to show it.</p>
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <p class="errors">@Model.Error</p>
+    }
+    <table>
+        <thead><tr><th>Id</th><th>Analyte</th><th>Jurisdiction</th><th>Matrix</th><th>Commodity</th><th>Limit</th><th>Effective</th><th>Source</th></tr></thead>
+        <tbody>
+        @foreach (var limit in Model.Limits)
+        {
+            <tr>
+                <td>@limit.MrlId</td>
+                <td>@limit.AnalyteCode</td>
+                <td>@limit.Jurisdiction</td>
+                <td>@limit.Matrix</td>
+                <td>@limit.Commodity</td>
+                <td>@limit.LimitValue.ToString("0.####") @limit.Unit</td>
+                <td>@limit.EffectiveFrom.ToString("yyyy-MM-dd")</td>
+                <td>@limit.SourceName @limit.VersionLabel</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>
+@if (Model.CanEdit)
+{
+    <section class="card">
+        <h2>Append a fictional row</h2>
+        <form method="post" class="grid">
+            <label>Analyte
+                <select name="analyteCode">
+                    @foreach (var code in Model.Analytes)
+                    {
+                        <option>@code</option>
+                    }
+                </select>
+            </label>
+            <label>Jurisdiction <input name="jurisdiction" value="FICTION-ZONE-7" /></label>
+            <label>Matrix <input name="matrix" value="oil" /></label>
+            <label>Commodity <input name="commodity" value="refined-demo-oil" /></label>
+            <label>Unit
+                <select name="unit">
+                    <option>mg/kg</option>
+                    <option>ug/kg</option>
+                    <option>g/kg</option>
+                    <option>mg/l</option>
+                    <option>%</option>
+                </select>
+            </label>
+            <label>Limit value <input name="limitValue" type="number" step="0.0001" value="1.25" /></label>
+            <label>Effective from <input name="effectiveFrom" type="date" value="2026-01-01" /></label>
+            <label>Source name <input name="sourceName" value="Fictional Demo Residue Catalog" /></label>
+            <label><input type="checkbox" name="fictionalConfirmed" value="true" /> I confirm this value is fictional and not a regulatory limit</label>
+            <button type="submit">Append limit</button>
+        </form>
+    </section>
+}

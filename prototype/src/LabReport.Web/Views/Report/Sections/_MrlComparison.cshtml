@@ -1,0 +1,60 @@
+@model LabReport.Core.Rendering.SectionFrame
+@{
+    var sample = Model.Sample!;
+    var keys = new[] { "analyte", "result", "unit", "limit", "limitUnit", "jurisdiction", "evaluation", "source" };
+    var visible = keys.Where(key => Columns.Visible(Model.Section, key)).ToList();
+}
+<section class="block tight">
+    <h3>@Model.Section.Title</h3>
+    <p class="note">Limits below are fictional demo values for jurisdiction @Model.Plan.Template.Jurisdiction. They are not regulatory limits. A row is compared only when the analyte, matrix, commodity, dates, and unit all match.</p>
+    <table class="grid">
+        <thead>
+            <tr class="repeat-id"><th colspan="@Math.Max(visible.Count, 1)">Sample @sample.Sample.SampleId · fictional limits</th></tr>
+            <tr>
+                @foreach (var key in visible)
+                {
+                    <th>@Columns.Label(Model.Section, key)</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in sample.MrlRows)
+            {
+                <tr>
+                    @foreach (var key in visible)
+                    {
+                        <td>
+                            @switch (key)
+                            {
+                                case "analyte":
+                                    @row.AnalyteName <span class="code">@row.AnalyteCode</span>
+                                    break;
+                                case "result":
+                                    @row.ResultDisplay
+                                    break;
+                                case "unit":
+                                    @(row.ResultUnit ?? "—")
+                                    break;
+                                case "limit":
+                                    @(row.LimitDisplay ?? "—")
+                                    break;
+                                case "limitUnit":
+                                    @(row.LimitUnit ?? "—")
+                                    break;
+                                case "jurisdiction":
+                                    @(row.Jurisdiction ?? "—")
+                                    break;
+                                case "evaluation":
+                                    <span class="eval eval-@row.Status">@row.StatusLabel</span>
+                                    break;
+                                case "source":
+                                    @(row.LimitSource is null ? "—" : $"{row.LimitSource} {row.LimitVersion}")
+                                    break;
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

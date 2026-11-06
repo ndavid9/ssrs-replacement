@@ -1,0 +1,21 @@
+@page "/admin/templates"
+@model LabReport.Web.Pages.Admin.Templates.IndexModel
+<section class="card">
+    <h2>Templates</h2>
+    <p class="small">A template is an ordered list of section handlers that already exist in code. Saving a template does not deploy new Razor. Adding a section type that is not in the whitelist is rejected.</p>
+    <table>
+        <thead><tr><th>Template</th><th>Version</th><th>Samples per group</th><th>Sections</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var template in Model.Templates)
+        {
+            <tr>
+                <td>@template.Name<br /><span class="small">@template.TemplateId</span></td>
+                <td>@template.Version</td>
+                <td>@template.SamplesPerPage</td>
+                <td>@string.Join(", ", template.Sections.Where(section => section.Enabled).Select(section => section.Type))</td>
+                <td><a href="/admin/templates/@template.TemplateId">Edit</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>

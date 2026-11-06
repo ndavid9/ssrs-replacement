@@ -1,0 +1,24 @@
+@model LabReport.Core.Rendering.SectionFrame
+<section class="block">
+    <h2>@Model.Section.Title</h2>
+    <p class="note">Method notes are separate from measured results. Numbers follow the first time each method is cited, in sample and result order, and do not restart on a new page group.</p>
+    @if (Model.Plan.Methods.Count == 0)
+    {
+        <p>No methods are cited.</p>
+    }
+    <ol class="methods">
+        @foreach (var method in Model.Plan.Methods)
+        {
+            <li value="@method.Number">
+                <strong>@method.Method.MethodCode</strong> @method.Method.MethodName
+                <span class="code">@method.Method.VersionLabel</span>
+                <p>@method.Method.Summary</p>
+                <p>@method.Method.ReferenceCitation</p>
+                @foreach (var note in method.Notes)
+                {
+                    <p class="prose">@note.PlainText</p>
+                }
+            </li>
+        }
+    </ol>
+</section>

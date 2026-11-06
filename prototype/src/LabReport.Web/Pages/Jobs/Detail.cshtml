@@ -1,0 +1,53 @@
+@page "/jobs/{id}"
+@model LabReport.Web.Pages.Jobs.DetailModel
+@{
+    var job = Model.Job!;
+    var pending = job.Status is LabReport.Core.Models.JobStatus.Queued or LabReport.Core.Models.JobStatus.Rendering;
+}
+<section class="card">
+    <h2>Job @job.Id.ToString("N")</h2>
+    <p class="status status-@job.Status">@job.Status</p>
+    <dl class="grid">
+        <div><dt>Report</dt><dd>@job.ReportId</dd></div>
+        <div><dt>Template</dt><dd>@job.TemplateId version @job.TemplateVersion</dd></div>
+        <div><dt>Attempt</dt><dd>@job.Attempt</dd></div>
+        <div><dt>Input hash</dt><dd style="word-break:break-all">@(string.IsNullOrEmpty(job.InputHash) ? "—" : job.InputHash)</dd></div>
+        <div><dt>PDF hash</dt><dd style="word-break:break-all">@(job.PdfHash ?? "—")</dd></div>
+        <div><dt>Cryptographic signature</dt><dd>@(job.CryptographicSignatureApplied ? "Applied" : "Not applied")</dd></div>
+    </dl>
+    @if (!string.IsNullOrWhiteSpace(job.SigningNote))
+    {
+        <p>@job.SigningNote</p>
+    }
+    @if (!string.IsNullOrWhiteSpace(job.Error))
+    {
+        <p class="errors">@job.Error</p>
+    }
+    @if (job.Issues.Count > 0)
+    {
+        <ul class="errors">
+            @foreach (var issue in job.Issues)
+            {
+                <li>@issue.Code: @issue.Message</li>
+            }
+        </ul>
+    }
+    <p class="actions">
+        @if (job.Status == LabReport.Core.Models.JobStatus.Succeeded)
+        {
+            <a class="button" href="/artifacts/@job.Id.ToString("N")">Download PDF</a>
+            <a class="button secondary" href="/jobs/@job.Id.ToString("N")/html">Pinned HTML</a>
+        }
+        @if (pending)
+        {
+            <form method="post" asp-page-handler="Cancel">
+                <button class="secondary" type="submit">Cancel</button>
+            </form>
+        }
+        <a class="button secondary" href="/jobs">All jobs</a>
+    </p>
+    @if (pending)
+    {
+        <p class="small">This page refreshes while the worker is running.</p>
+    }
+</section>

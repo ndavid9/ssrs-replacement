@@ -1,0 +1,9 @@
+@model LabReport.Core.Rendering.SectionFrame
+<section class="block">
+    <h2>@Model.Section.Title</h2>
+    @foreach (var text in Model.Plan.ReportDisclaimers)
+    {
+        <p class="prose">@text.PlainText</p>
+        <p class="code">Text @text.Key @text.VersionLabel, printed once for the report.</p>
+    }
+</section>

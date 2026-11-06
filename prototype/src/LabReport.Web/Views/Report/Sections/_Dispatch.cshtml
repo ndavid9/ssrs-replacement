@@ -1,0 +1,33 @@
+@model LabReport.Core.Rendering.SectionFrame
+@switch (Model.Section.Type)
+{
+    case "report-metadata":
+        <partial name="Sections/_Metadata" model="Model" />
+        break;
+    case "sample-summary":
+        <partial name="Sections/_SampleSummary" model="Model" />
+        break;
+    case "analytical-results":
+        <partial name="Sections/_AnalyticalResults" model="Model" />
+        break;
+    case "mrl-comparison":
+        <partial name="Sections/_MrlComparison" model="Model" />
+        break;
+    case "comments":
+        <partial name="Sections/_Comments" model="Model" />
+        break;
+    case "conclusions":
+        <partial name="Sections/_Conclusions" model="Model" />
+        break;
+    case "method-references":
+        <partial name="Sections/_Methods" model="Model" />
+        break;
+    case "disclaimers":
+        <partial name="Sections/_Disclaimers" model="Model" />
+        break;
+    case "approval-signature":
+        <partial name="Sections/_Approval" model="Model" />
+        break;
+    default:
+        throw new InvalidOperationException($"Section type '{Model.Section.Type}' is not in the render whitelist.");
+}

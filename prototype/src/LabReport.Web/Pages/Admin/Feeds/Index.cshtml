@@ -1,0 +1,24 @@
+@page "/admin/feeds"
+@model LabReport.Web.Pages.Admin.Feeds.IndexModel
+<section class="card">
+    <h2>Feeds</h2>
+    <p>The running provider is <strong>@Model.Provider</strong>. A feed is an approved name, not a connection string and not a SQL statement. The JSON provider reads files under Seed/feeds/report-snapshot-v1. The SQL provider calls <code>rpt.usp_ExportReportSnapshot</code> with three parameters.</p>
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <p class="errors">@Model.Error</p>
+    }
+    <form method="post">
+        <label>
+            <input type="checkbox" name="enabledFeeds" value="@FeedContracts.ReportSnapshotV1" checked="@Model.Enabled.Contains(FeedContracts.ReportSnapshotV1)" />
+            @FeedContracts.ReportSnapshot.DisplayName
+        </label>
+        <p class="small">Object @FeedContracts.ReportSnapshot.SqlObject (@FeedContracts.ReportSnapshot.ObjectKind). Parameters @string.Join(", ", FeedContracts.ReportSnapshot.Parameters).</p>
+        <ul>
+            @foreach (var field in FeedContracts.ReportSnapshot.Fields)
+            {
+                <li><strong>@field.Name</strong> — @field.Description</li>
+            }
+        </ul>
+        <button type="submit">Save enabled feeds</button>
+    </form>
+</section>
