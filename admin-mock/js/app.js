@@ -37,10 +37,14 @@ function boot() {
 }
 
 function bind() {
-  document.querySelectorAll("[data-tab]").forEach((button) => {
+  document.querySelectorAll(".tabs [data-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       state.tab = button.dataset.tab;
       render();
+      if (window.NorthlineNordic) {
+        if (state.tab === "nordic") window.NorthlineNordic.show();
+        else window.NorthlineNordic.hide();
+      }
     });
   });
   els.createType.addEventListener("click", createType);

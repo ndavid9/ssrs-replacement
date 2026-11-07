@@ -201,7 +201,8 @@
     <thead><tr><th>Path</th><th>Contents</th></tr></thead>
     <tbody>
       <tr><td><a href="prototype/"><code>prototype/</code></a></td><td>ASP.NET Core “Northline report desk” — Razor views, Playwright PDF jobs, admin pages, SQL scripts, tests.</td></tr>
-      <tr><td><a href="admin-mock/"><code>admin-mock/</code></a></td><td>Static layout studio — schema, editor, validation, JSON export; <code>localStorage</code> only.</td></tr>
+      <tr><td><a href="admin-mock/"><code>admin-mock/</code></a></td><td>Static layout studio, plus a separate Nordic examples sandbox. <code>localStorage</code> only, and the two stores do not share a key.</td></tr>
+      <tr><td><a href="docs/nordic-layout-patterns.md"><code>docs/nordic-layout-patterns.md</code></a></td><td>How the Nordic presets map onto Report, Sample, Tests, Parameters, Results, Comments, Conclusions, MRL, and Accreditation. Source links, no copied reports.</td></tr>
       <tr><td><a href="docs/"><code>docs/</code></a></td><td>Research, copied prototype docs, <a href="docs/sample-layout.json">sample-layout.json</a>, sample PDFs.</td></tr>
       <tr><td><a href="docs/sample-output/"><code>docs/sample-output/</code></a></td><td><code>report-without-mrl.pdf</code>, <code>report-with-mrl.pdf</code>, <code>report-stress-test.pdf</code> (+ extras).</td></tr>
       <tr><td><a href="media/"><code>media/</code></a></td><td><a href="media/prototype-walkthrough.mp4">prototype-walkthrough.mp4</a>, <a href="media/layout-studio-walkthrough.mp4">layout-studio-walkthrough.mp4</a>.</td></tr>
@@ -219,6 +220,13 @@ dotnet run --project src/LabReport.Web --urls http://127.0.0.1:5891</code></pre>
   <h3>Layout studio</h3>
   <pre><code>python3 -m http.server 8766 --directory admin-mock</code></pre>
   <p>Open <code>http://127.0.0.1:8766/</code>. Or open <code>admin-mock/index.html</code> directly.</p>
+  <h3>Nordic examples sandbox</h3>
+  <p>On that same page, open the <strong>Nordic examples</strong> tab, or go to <code>http://127.0.0.1:8766/#nordic</code>. It is a separate sandbox: its own presets, its own <code>localStorage</code> key (<code>northline-nordic-sandbox-v1</code>), and it does not rewrite the studio document.</p>
+  <p>Five presets reuse one fictional snapshot. Controls change section visibility, vertical versus sample-column layout, sample count, samples per page (including more than four), parameter groups, and optional unit / LOQ / LOR / MU / method / reference / accreditation columns. Comments stay on the sample, test, or result that owns them. Report conclusions and the sign-off block are end-matter. Limits score only when unit, matrix, and jurisdiction match; a mismatch stays “not evaluated”.</p>
+  <div class="warn">
+    Pagination in this tab is <strong>simulated</strong>. Headers repeat and the sign-off sits on the last simulated page, but there is no print engine and no PDF. The export says <code>pagination.pdf: false</code>. See <a href="docs/nordic-layout-patterns.md">nordic-layout-patterns.md</a>.
+  </div>
+  <pre><code>node admin-mock/selfcheck/run.mjs</code></pre>
 </section>
 
 <section>
@@ -253,7 +261,8 @@ dotnet run --project src/LabReport.Web --urls http://127.0.0.1:5891</code></pre>
     <ul class="tight">
       <li>All data is <strong>mocked / synthetic</strong>. Every PDF carries a permanent banner: not a laboratory certificate.</li>
       <li>SQL scripts under <code>prototype/sql/</code> were <strong>never run</strong> against a SQL Server in the build environment. Default feed is JSON.</li>
-      <li>Layout studio is <strong>localStorage only</strong> — no backend, no auth, no multi-user sync.</li>
+      <li>Layout studio is <strong>localStorage only</strong> — no backend, no auth, no multi-user sync. The Nordic examples tab is a second key in the same browser, still with no backend.</li>
+      <li>Nordic pagination is a <strong>simulated</strong> page stack (sample groups and row chunks). It is not a PDF and does not replace the report desk’s Playwright pagination.</li>
       <li>The prototype walkthrough video shows the desk UI; it does <strong>not</strong> open the generated PDFs on screen (download them from <a href="docs/sample-output/">docs/sample-output/</a>).</li>
       <li>No real identity provider, no cryptographic signing, no PDF/A, no durable external queue.</li>
       <li>Public Mizoram PDF returned HTTP 403 and was not used as a layout source.</li>

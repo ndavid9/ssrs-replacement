@@ -15,3 +15,15 @@ When the report desk is running, the same files are also at http://127.0.0.1:589
 Export writes `northline-layout.json` with `schemaVersion`, named feed contracts, and the report-type section tree. Feeds are fixed names such as `report-snapshot-v1` and `mrl-fictional-v1`. The studio will not store a URL or a SQL string.
 
 Reset demo restores Food Export, Water Compliance, and Internal QC.
+
+## Nordic examples
+
+The **Nordic examples** tab is a separate sandbox on the same page (`#nordic`). It stores `northline-nordic-sandbox-v1` only. Reset sandbox and Export JSON on that tab do not touch the studio document.
+
+Presets apply one shared fictional snapshot (`nordic-snapshot-v1`) through a versioned layout document: vertical or matrix, sample count, samples per page, row budget, domain visibility, optional columns (unit, LOQ, LOR, MU, method, reference, accreditation, limit), comment and conclusion scopes, and limit matching. Mismatched unit, matrix, or jurisdiction stays “not evaluated”. Pagination is simulated (repeated headers, continuation, sign-off on the last page only). It is not a PDF.
+
+```bash
+node admin-mock/selfcheck/run.mjs
+```
+
+Pattern notes: [`../docs/nordic-layout-patterns.md`](../docs/nordic-layout-patterns.md).
