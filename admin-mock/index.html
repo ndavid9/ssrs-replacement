@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Northline layout studio</title>
   <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="css/nordic.css" />
+  <script>
+    window.__pageErrors = [];
+    window.addEventListener("error", function (event) {
+      window.__pageErrors.push(String(event.message || "error"));
+    });
+    window.addEventListener("unhandledrejection", function (event) {
+      window.__pageErrors.push(String(event.reason || "rejection"));
+    });
+  </script>
 </head>
 <body>
   <header class="top">
@@ -16,6 +26,7 @@
       <button type="button" data-tab="schema">Schema</button>
       <button type="button" data-tab="layout">Layout</button>
       <button type="button" data-tab="json">JSON</button>
+      <button type="button" data-tab="nordic">Nordic examples</button>
     </nav>
     <div class="top-actions">
       <button type="button" id="exportBtn">Export JSON</button>
@@ -37,6 +48,7 @@
       <section id="panel-schema">
         <h2>Domain schema</h2>
         <p>Multiplicities are fixed. A report type decides which of these domains are included, not a new relationship.</p>
+        <p class="hint">Nordic report shapes — vertical rows, grouped tests, sample columns, footnotes, and limits — live in the separate Nordic examples tab. That sandbox does not change this editor.</p>
         <div id="diagram"></div>
         <table class="schema">
           <thead><tr><th>Domain</th><th>Multiplicity</th><th>Feed contract</th><th>Relationship</th></tr></thead>
@@ -83,9 +95,117 @@
       </section>
     </aside>
   </div>
+  <div id="nordicApp" hidden>
+    <div class="nordic-banner">
+      <h2>Nordic examples sandbox</h2>
+      <p>MOCK / NOT FOR RELEASE. One fictional snapshot, five layout presets. Controls write a versioned layout document and the preview is rendered from it. Not a laboratory report, and not a copy of a published certificate.</p>
+    </div>
+    <div class="nordic-shell">
+      <aside class="nordic-controls">
+        <h2>Presets</h2>
+        <p id="nordicEdited" class="edited" hidden>Edited</p>
+        <div id="nordicPresets"></div>
+        <div class="control-grid">
+          <label>Layout
+            <select id="nordicMode">
+              <option value="vertical">Vertical — one sample block</option>
+              <option value="matrix">Matrix — samples as columns</option>
+            </select>
+          </label>
+          <label>Matrix slice
+            <select id="nordicMatrix">
+              <option value="water">Water</option>
+              <option value="groundwater">Groundwater</option>
+              <option value="soil">Soil</option>
+              <option value="hardened">Hardened material</option>
+              <option value="distribution">Distribution water</option>
+            </select>
+          </label>
+          <label>Samples <input id="nordicSampleCount" type="number" min="1" max="8" step="1" /></label>
+          <label>Samples per page <input id="nordicSamplesPerPage" type="number" min="1" max="8" step="1" /></label>
+          <label>Rows per simulated page <input id="nordicRowsPerPage" type="number" min="4" max="20" step="1" /></label>
+          <label class="check"><input id="nordicGroup" type="checkbox" /> Group parameters by test</label>
+        </div>
+        <fieldset>
+          <legend>Domains</legend>
+          <div id="nordicDomains" class="cols"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Columns</legend>
+          <div id="nordicColumns" class="cols"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Comment scopes</legend>
+          <div id="nordicCommentScopes" class="cols"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Conclusion scopes</legend>
+          <div id="nordicConclusionScopes" class="cols"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Limit match</legend>
+          <label>Jurisdiction
+            <select id="nordicJurisdiction">
+              <option value="FICTION-NORDIC">FICTION-NORDIC</option>
+              <option value="FICTION-OTHER">FICTION-OTHER</option>
+            </select>
+          </label>
+          <label class="check"><input id="nordicReqUnit" type="checkbox" /> Require unit match</label>
+          <label class="check"><input id="nordicReqMatrix" type="checkbox" /> Require matrix match</label>
+          <label class="check"><input id="nordicReqJurisdiction" type="checkbox" /> Require jurisdiction match</label>
+        </fieldset>
+        <label class="check"><input id="nordicSignoff" type="checkbox" /> Report sign-off on the last page</label>
+        <p class="row-actions">
+          <button type="button" id="nordicExport">Export JSON</button>
+          <button type="button" id="nordicReset" class="ghost">Reset sandbox</button>
+        </p>
+        <p class="hint">Stored only under <code>northline-nordic-sandbox-v1</code>. The layout studio keeps <code>northline-layout-studio-v1</code>.</p>
+      </aside>
+      <main class="nordic-main">
+        <div class="nordic-views">
+          <button type="button" data-nordic-view="preview" class="is-on">Preview</button>
+          <button type="button" data-nordic-view="json">Declarative JSON</button>
+          <button type="button" data-nordic-view="refs">References</button>
+          <span id="nordicPageCount"></span>
+        </div>
+        <div id="nordicPreview"></div>
+        <div id="nordicJsonView" hidden>
+          <p class="hint">schemaVersion, named feeds, the layout document, handler choices, and the simulated page plan. The snapshot is referenced, not redrawn as HTML.</p>
+          <pre id="nordicJson"></pre>
+        </div>
+        <div id="nordicRefs" hidden>
+          <h2>Reference list</h2>
+          <p>Public documents used as layout-pattern reading. Values, names, logos, and signatures in this sandbox are fictional. The originals are not stored in this repository.</p>
+          <ul class="ref-list">
+            <li>Vertical water table with result, measurement uncertainty, unit, LOR, and method. ALS, Stockholm public meeting PDF. <a href="https://meetingspublic.stockholm.se/welcome-sv/namnder-styrelser/skonhetsradets-delegerade-i-plan-och-bygglovsarenden-naturvardsarenden-samt-kulturvardsarenden/mote-2021-03-22/protocol/grundvattenprovtagningpdf?downloadMode=open">meetingspublic.stockholm.se</a></li>
+            <li>Grouped groundwater tests, uncertainty, methods, continuation, and comments. SGS / Växjö public PDF. <a href="https://www.vaxjo.se/download/18.28f2020119b3545d11a82440/1767539951008/Rapport%20grundvattenprovtagning,%20WSP,%202025-09-05.pdf">vaxjo.se</a></li>
+            <li>Several soil samples side by side on shared parameter rows. SYNLAB / Porvoo public PDF. <a href="https://www.porvoo.fi/app/uploads/2021/11/Selvitys-4-100-FCG-PiMa-tutkimusraportti-poistettu-oljysailio-26.2.2021.pdf">porvoo.fi</a></li>
+            <li>LOQ, measurement uncertainty, method, and accreditation footnotes on a solids sample. Eurofins Norway public PDF. <a href="https://webfileservice.nve.no/API/PublishedFiles/Download/e6bb5dd1-3a23-4987-9c13-90962ebf4449/202419314/3447562">webfileservice.nve.no</a></li>
+            <li>Result, guidance limit, quantification limit, reference, and method on a water sample. AGROLAB public PDF. <a href="https://www.nov.dk/Portals/299/BEFUND30_W-2479833_Vers_1%20AAGV%2C%20Flushprove%2C%20ledningsnetprove%2022_08_2025.pdf">nov.dk</a></li>
+          </ul>
+          <p class="hint">Repo notes: <code>docs/nordic-layout-patterns.md</code>.</p>
+        </div>
+      </main>
+      <aside class="nordic-side">
+        <section class="rail-card">
+          <h2>Validation <span id="nordicValidationSummary" class="ok">No blocking issues</span></h2>
+          <ul id="nordicValidation"></ul>
+        </section>
+        <section class="rail-card">
+          <h2>How this maps</h2>
+          <div id="nordicMap"></div>
+        </section>
+      </aside>
+    </div>
+  </div>
   <script src="js/model.js"></script>
   <script src="js/validate.js"></script>
   <script src="js/preview.js"></script>
+  <script src="js/nordic-snapshot.js"></script>
+  <script src="js/nordic-logic.js"></script>
+  <script src="js/nordic-render.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/nordic-app.js"></script>
+  <script src="js/nordic-selfcheck.js"></script>
 </body>
 </html>

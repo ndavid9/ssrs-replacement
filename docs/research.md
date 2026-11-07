@@ -107,3 +107,4 @@ Feeds stay on named contracts such as `report-snapshot-v1` / `mrl-fictional-v1`.
 - Architecture: `docs/prototype/ARCHITECTURE.md`
 - Source inspection: `docs/prototype/SOURCE-INSPECTION.md`
 - Layout studio: `admin-mock/README.md`
+- Nordic layout patterns (separate sandbox, simulated pagination): `docs/nordic-layout-patterns.md`

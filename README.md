@@ -7,7 +7,7 @@ Quick links:
 | Path | What |
 | --- | --- |
 | [`prototype/`](prototype/) | ASP.NET Core Razor + Playwright report desk |
-| [`admin-mock/`](admin-mock/) | Browser-only layout studio (localStorage) |
+| [`admin-mock/`](admin-mock/) | Browser-only layout studio, plus the Nordic examples sandbox |
 | [`docs/research.md`](docs/research.md) | Research notes and recommendations |
 | [`docs/sample-output/`](docs/sample-output/) | Generated sample PDFs |
 | [`media/`](media/) | Walkthrough videos |
@@ -27,5 +27,19 @@ python3 -m http.server 8766 --directory admin-mock
 ```
 
 Then open http://127.0.0.1:8766/
+
+### Nordic examples sandbox
+
+Same server and the same page. Open the **Nordic examples** tab (or http://127.0.0.1:8766/#nordic).
+
+That tab is a separate sandbox. It does not write the layout studio’s `localStorage` key. One fictional snapshot feeds five presets (vertical LOR/MU, grouped tests, sample columns, accreditation footnotes, limit matching). The preview and the exported JSON (`northline-nordic-layout.json`, schema `nordic-sandbox-1.0`) both come from that layout document. Pagination on screen is simulated, not a PDF.
+
+Pattern notes and source links: [`docs/nordic-layout-patterns.md`](docs/nordic-layout-patterns.md).
+
+Checks:
+
+```bash
+node admin-mock/selfcheck/run.mjs
+```
 
 Private repository. All report data is synthetic and is not a laboratory certificate.
