@@ -35,9 +35,10 @@ public sealed class ArtifactExporter
         await ProduceAsync(directory, "RPT-DEMO-STRESS", "analytical-stress", 2, "demo-report-stress.pdf", cancellationToken);
         await ProduceAsync(directory, "RPT-DEMO-0001", "analytical-default", 1, "demo-report-groups-1.pdf", cancellationToken);
         await ProduceAsync(directory, "RPT-DEMO-0001", "analytical-default", 3, "demo-report-groups-3.pdf", cancellationToken);
+        await ProduceAsync(directory, "RPT-DEMO-0001", "analytical-inserts", null, "demo-report-with-inserts.pdf", cancellationToken);
     }
 
-    private async Task ProduceAsync(string directory, string reportId, string templateId, int samplesPerPage, string fileName, CancellationToken cancellationToken)
+    private async Task ProduceAsync(string directory, string reportId, string templateId, int? samplesPerPage, string fileName, CancellationToken cancellationToken)
     {
         var job = await _jobs.EnqueueAsync(new RenderRequest(reportId, templateId, samplesPerPage, null, null), cancellationToken);
         var finished = await WaitAsync(job.Id, cancellationToken);

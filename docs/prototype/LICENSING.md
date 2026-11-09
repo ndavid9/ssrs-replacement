@@ -7,13 +7,17 @@ The report desk source in this repository is original demo code written for this
 | .NET 10 SDK and ASP.NET Core | MIT | Runtime and Razor |
 | Microsoft.Data.SqlClient 7.1.1 | MIT | Optional SQL adapter |
 | Microsoft.Playwright 1.64.1 | Apache-2.0 | Drives Chromium |
+| PDFsharp 6.2.4 | MIT | Merges inserted PDFs and stamps page numbers |
+| PdfPig 0.1.11 | Apache-2.0 | Finds slot markers and appendix-range cells in the rendered PDF |
 | Playwright driver and Chromium build it downloads | Apache-2.0 for Playwright; Chromium’s BSD-style license for the browser | PDF printing |
 | Liberation Sans (regular, bold, italic) | SIL Open Font License 1.1. Reserved font name: Liberation | Embedded in the report HTML. The Debian copyright file is in `src/LabReport.Web/Assets/fonts/SIL-OFL-1.1.txt` |
 | xUnit 2.9.3 and the Visual Studio test SDK | Apache-2.0 for xUnit | Tests only |
 | Poppler `pdftotext` / `pdftoppm` | GPL | Used on the machine to inspect PDFs. Not referenced by the app |
 | SQL Server 2022 container | Microsoft SQL Server license | Optional. Not used by the default demo |
 
-No paid component is required to run the JSON demo.
+No paid component is required to run the JSON demo. iText (AGPL) and Aspose are not used.
+
+PdfPig 0.1.11 brings `System.Security.Cryptography.Pkcs` 8.0.1, which has the same published advisories as the newer package noted below (GHSA-2fmv-rv2c-59x7, GHSA-846f-f764-76mx). PdfPig is used to locate text in PDFs we already produced. It is not used to verify CMS signatures. This prototype does not bump or suppress that package.
 
 ## Advisory on a transitive package
 

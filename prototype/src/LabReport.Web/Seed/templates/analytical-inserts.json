@@ -1,0 +1,176 @@
+{
+  "templateId": "analytical-inserts",
+  "name": "Analytical demonstration with inserted PDFs",
+  "version": 1,
+  "language": "en",
+  "samplesPerPage": 2,
+  "resultRowsPerChunk": 16,
+  "paper": "A4",
+  "orientation": "portrait",
+  "marginTopMm": 24,
+  "marginBottomMm": 16,
+  "marginSideMm": 12,
+  "signatoryId": "sig-demo-reviewer",
+  "jurisdiction": "FICTION-ZONE-7",
+  "updatedUtc": "2026-01-15T00:00:00Z",
+  "sections": [
+    {
+      "instanceId": "report-metadata",
+      "type": "report-metadata",
+      "title": "Report details",
+      "order": 10,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": []
+    },
+    {
+      "instanceId": "sample-summary",
+      "type": "sample-summary",
+      "title": "Sample summary",
+      "order": 20,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": []
+    },
+    {
+      "instanceId": "analytical-results",
+      "type": "analytical-results",
+      "title": "Analytical results",
+      "order": 30,
+      "enabled": true,
+      "columns": [
+        {
+          "key": "analyte",
+          "label": "Analyte",
+          "visible": true
+        },
+        {
+          "key": "result",
+          "label": "Result",
+          "visible": true
+        },
+        {
+          "key": "qualifier",
+          "label": "Qualifier",
+          "visible": true
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "visible": true
+        },
+        {
+          "key": "lod",
+          "label": "LOD",
+          "visible": true
+        },
+        {
+          "key": "loq",
+          "label": "LOQ",
+          "visible": true
+        },
+        {
+          "key": "method",
+          "label": "Method",
+          "visible": true
+        }
+      ],
+      "subsections": [
+        {
+          "id": "metals",
+          "title": "Metals",
+          "order": 10,
+          "enabled": true,
+          "analyteGroup": "metals"
+        },
+        {
+          "id": "screen",
+          "title": "Screen",
+          "order": 20,
+          "enabled": true,
+          "analyteGroup": "screen"
+        }
+      ],
+      "textKeys": []
+    },
+    {
+      "instanceId": "comments",
+      "type": "comments",
+      "title": "Comments",
+      "order": 40,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": []
+    },
+    {
+      "instanceId": "conclusions",
+      "type": "conclusions",
+      "title": "Conclusions",
+      "order": 50,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": []
+    },
+    {
+      "instanceId": "method-references",
+      "type": "method-references",
+      "title": "Method references",
+      "order": 60,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": []
+    },
+    {
+      "instanceId": "disclaimers",
+      "type": "disclaimers",
+      "title": "Disclaimer",
+      "order": 70,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": [
+        "disclaimer.scope"
+      ]
+    },
+    {
+      "instanceId": "approval-signature",
+      "type": "approval-signature",
+      "title": "Layout label",
+      "order": 80,
+      "enabled": true,
+      "columns": [],
+      "subsections": [],
+      "textKeys": [
+        "approval.demo-block"
+      ]
+    }
+  ],
+  "inserts": [
+    {
+      "id": "attachment-1",
+      "file": "chromatogram.pdf",
+      "mode": "attachment",
+      "slot": "after:report-metadata",
+      "label": "Attachment 1"
+    },
+    {
+      "id": "attachment-2",
+      "file": "instrument-log.pdf",
+      "mode": "attachment",
+      "slot": "after:method-references",
+      "label": "Attachment 2"
+    },
+    {
+      "id": "appendix-a",
+      "file": "method-appendix.pdf",
+      "mode": "appendix",
+      "slot": "end",
+      "label": "Appendix A"
+    }
+  ]
+}

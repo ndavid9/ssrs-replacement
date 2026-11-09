@@ -12,9 +12,17 @@
 <article class="sheet">
     <p class="banner">SYNTHETIC DATA / NOT A VALID LABORATORY CERTIFICATE</p>
     <p class="banner-sub">Northline Demonstration Bench. Fictional client, results, methods, and limits. Not an accredited document.</p>
+    @if (Model.Inserts.Count > 0)
+    {
+        <partial name="Sections/_InsertList" model="Model" />
+    }
     @foreach (var section in Model.BeforeSamples)
     {
         <partial name="Sections/_Dispatch" model="new SectionFrame(Model, section, null)" />
+        @foreach (var insert in InsertAnchors.After(Model, "after:" + section.InstanceId))
+        {
+            <partial name="Sections/_InsertSlot" model="new InsertSlotView(insert, InsertAnchors.SlotHeightMm(Model.Template))" />
+        }
     }
     @foreach (var group in Model.Groups)
     {
@@ -50,6 +58,13 @@
             }
         </section>
     }
+    @foreach (var section in Model.PerSample)
+    {
+        @foreach (var insert in InsertAnchors.After(Model, "after:" + section.InstanceId))
+        {
+            <partial name="Sections/_InsertSlot" model="new InsertSlotView(insert, InsertAnchors.SlotHeightMm(Model.Template))" />
+        }
+    }
     @if (Model.ReportConclusions.Count > 0)
     {
         <section class="block">
@@ -63,5 +78,13 @@
     @foreach (var section in Model.AfterSamples)
     {
         <partial name="Sections/_Dispatch" model="new SectionFrame(Model, section, null)" />
+        @foreach (var insert in InsertAnchors.After(Model, "after:" + section.InstanceId))
+        {
+            <partial name="Sections/_InsertSlot" model="new InsertSlotView(insert, InsertAnchors.SlotHeightMm(Model.Template))" />
+        }
+    }
+    @foreach (var insert in InsertAnchors.After(Model, "end"))
+    {
+        <partial name="Sections/_InsertSlot" model="new InsertSlotView(insert, InsertAnchors.SlotHeightMm(Model.Template))" />
     }
 </article>

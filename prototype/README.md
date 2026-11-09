@@ -82,6 +82,12 @@ Do not commit that password. See `docs/SQL.md`.
 - `docs/SQL.md` — tables, procedure, and the read-only role
 - `docs/LICENSING.md` — third-party licenses
 
+## Inserted PDFs
+
+A template can list external PDFs in `inserts` (`file`, `mode` of `attachment` or `appendix`, `slot` of `end` or `after:<section id>`, and a `label`). The demo template is `analytical-inserts`. Its files are `Seed/inserts/chromatogram.pdf` (2 pages), `instrument-log.pdf` (5 pages, page 3 landscape), and `method-appendix.pdf` (3 pages). Razor emits a placeholder page at each slot. After Chromium prints, PDFsharp replaces those pages and stamps `Page n of N` on report and appendix pages. Attachment pages keep their own content and get a label such as `Attachment 2 - page 3 of 5` in a strip added below the original page. The signing hook runs after that stamp and still does not sign. Encrypted or corrupt uploads fail validation. Each file’s SHA-256 is stored beside the pin hash.
+
+The repository file `docs/sample-output/report-with-inserts.pdf` is that demo. Page 1 is `Page 1 of 9`, the two chromatogram pages are attachments, the landscape log is `Attachment 2 - page 3 of 5`, and the supplement continues as `Page 7 of 9` through `Page 9 of 9`.
+
 ## Tests
 
-`dotnet test tests/LabReport.Tests/LabReport.Tests.csproj` covers grouping at 1, 2, and 3 samples, placeholder failures, sample-scoped text, method deduplication, MRL unit rules, template persistence, HTML encoding, and real Chromium PDFs. The last run in this workspace was 22 passed, 0 failed. SQL execution was not part of that run.
+`dotnet test tests/LabReport.Tests/LabReport.Tests.csproj` covers grouping at 1, 2, and 3 samples, placeholder failures, sample-scoped text, method deduplication, MRL unit rules, template persistence, HTML encoding, insert numbering, slot replacement, and real Chromium PDFs. The last run in this workspace was 31 passed, 0 failed. SQL execution was not part of that run.

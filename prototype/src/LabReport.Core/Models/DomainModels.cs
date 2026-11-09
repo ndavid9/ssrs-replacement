@@ -50,6 +50,12 @@ public enum JobStatus
     Cancelled
 }
 
+public enum PdfInsertMode
+{
+    Attachment,
+    Appendix
+}
+
 public sealed record ReportSnapshot
 {
     public required string SchemaVersion { get; init; }
@@ -169,6 +175,31 @@ public sealed record TemplateDefinition
     public required string Jurisdiction { get; init; }
     public required DateTimeOffset UpdatedUtc { get; init; }
     public required IReadOnlyList<SectionConfig> Sections { get; init; }
+    public IReadOnlyList<PdfInsert> Inserts
+    {
+        get => _inserts;
+        init => _inserts = value ?? [];
+    }
+
+    private readonly IReadOnlyList<PdfInsert> _inserts = [];
+}
+
+public sealed record PdfInsert
+{
+    public required string Id { get; init; }
+    public required string File { get; init; }
+    public required PdfInsertMode Mode { get; init; }
+    public required string Slot { get; init; }
+    public required string Label { get; init; }
+}
+
+public sealed record InsertDigest
+{
+    public required string Id { get; init; }
+    public required string File { get; init; }
+    public required string Sha256 { get; init; }
+    public int PageCount { get; init; }
+    public bool Accepted { get; init; }
 }
 
 public sealed record TextEntry
@@ -248,6 +279,13 @@ public sealed record JobRecord
     public string? SigningNote { get; init; }
     public bool CryptographicSignatureApplied { get; init; }
     public Guid? DeduplicatedFrom { get; init; }
+    public IReadOnlyList<InsertDigest> InsertDigests
+    {
+        get => _insertDigests;
+        init => _insertDigests = value ?? [];
+    }
+
+    private readonly IReadOnlyList<InsertDigest> _insertDigests = [];
 }
 
 public sealed record PinnedInput
@@ -261,6 +299,13 @@ public sealed record PinnedInput
     public required int SamplesPerPage { get; init; }
     public required string Paper { get; init; }
     public required string Orientation { get; init; }
+    public IReadOnlyList<InsertDigest> Inserts
+    {
+        get => _inserts;
+        init => _inserts = value ?? [];
+    }
+
+    private readonly IReadOnlyList<InsertDigest> _inserts = [];
 }
 
 public sealed record FeedField(string Name, string Description, bool Required);

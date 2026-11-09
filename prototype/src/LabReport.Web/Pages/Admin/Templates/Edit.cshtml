@@ -78,6 +78,17 @@
         }
         <button type="submit">Save layout</button>
     </form>
+    @if (template.Inserts.Count > 0)
+    {
+        <h3>Inserted PDFs</h3>
+        <p class="small">Each row names a file in Seed/inserts, a mode, and a slot. Slots are <code>end</code> or <code>after:</code> a section instance id. This screen does not upload files.</p>
+        <ul>
+            @foreach (var insert in template.Inserts)
+            {
+                <li><strong>@insert.Label</strong> · @insert.Mode · slot @insert.Slot · @insert.File</li>
+            }
+        </ul>
+    }
     @if (available.Count > 0)
     {
         <form method="post" asp-page-handler="Add" class="actions" style="margin-top:16px">

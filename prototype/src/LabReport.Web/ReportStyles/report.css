@@ -35,3 +35,17 @@ table.grid thead tr.repeat-id th { background: #efe6d6; color: #1c2430; }
 .signatory { display: flex; gap: 12px; align-items: flex-start; }
 .signatory img { width: 220px; height: auto; }
 .eval { display: inline-block; }
+.insert-list { margin: 0 0 12px; }
+.appendix-range { display: inline-block; min-width: 22mm; padding: 0 3px; border-bottom: 1px solid #9aa3ad; }
+.insert-slot {
+  break-before: page;
+  page-break-before: always;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed #9aa3ad;
+  background: #f7f4ee;
+  overflow: hidden;
+}
+.slot-kicker { margin: 0 0 6px; color: #3f4c59; font-size: 9pt; }
+.slot-marker { font-size: 11pt; letter-spacing: 0.01em; }

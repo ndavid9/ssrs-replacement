@@ -189,9 +189,11 @@
     → validate + text resolve + fictional limits
     → pin snapshot/template/texts (SHA-256)
     → BackgroundService queue (capped concurrency)
-    → Razor whitelist sections
-    → Playwright Chromium PDF (network locked down)
-    → store PDF + hash; crypto sign = later hook</div>
+    → Razor whitelist sections (insert-slot placeholder pages)
+    → Playwright Chromium PDF (network locked down, empty page-number box)
+    → PDFsharp merges uploaded PDFs into those slots, then stamps page numbers
+    → crypto sign hook last (still a stub)</div>
+  <p>Inserts are declared on the layout (<code>file</code>, <code>attachment</code> or <code>appendix</code>, slot <code>after:</code> a section or <code>end</code>, and a label). Report pages and appendix pages share one <code>Page n of N</code>. Attachment pages are not in that count; they keep their original content and get a small label in a strip added under the page. The sample is <a href="docs/sample-output/report-with-inserts.pdf"><code>report-with-inserts.pdf</code></a> (16 pages: report + 2-page and 5-page attachments, one landscape, then a 3-page appendix numbered 7–9).</p>
   <p>Admins reorder / enable / retitle whitelisted sections and set <code>samples per group</code>. Developers add new visual types (catalog + Razor partial). Feeds are named contracts — not free-form SQL. Signatures are registered blocks, not string replacement. Details: <a href="docs/prototype/ARCHITECTURE.md">ARCHITECTURE.md</a>.</p>
 </section>
 
@@ -204,7 +206,7 @@
       <tr><td><a href="admin-mock/"><code>admin-mock/</code></a></td><td>Static layout studio, plus a separate Nordic examples sandbox. <code>localStorage</code> only, and the two stores do not share a key.</td></tr>
       <tr><td><a href="docs/nordic-layout-patterns.md"><code>docs/nordic-layout-patterns.md</code></a></td><td>How the Nordic presets map onto Report, Sample, Tests, Parameters, Results, Comments, Conclusions, MRL, and Accreditation. Source links, no copied reports.</td></tr>
       <tr><td><a href="docs/"><code>docs/</code></a></td><td>Research, copied prototype docs, <a href="docs/sample-layout.json">sample-layout.json</a>, sample PDFs.</td></tr>
-      <tr><td><a href="docs/sample-output/"><code>docs/sample-output/</code></a></td><td><code>report-without-mrl.pdf</code>, <code>report-with-mrl.pdf</code>, <code>report-stress-test.pdf</code> (+ extras).</td></tr>
+      <tr><td><a href="docs/sample-output/"><code>docs/sample-output/</code></a></td><td><code>report-without-mrl.pdf</code>, <code>report-with-mrl.pdf</code>, <code>report-stress-test.pdf</code>, <code>report-with-inserts.pdf</code>.</td></tr>
       <tr><td><a href="media/"><code>media/</code></a></td><td><a href="media/prototype-walkthrough.mp4">prototype-walkthrough.mp4</a>, <a href="media/layout-studio-walkthrough.mp4">layout-studio-walkthrough.mp4</a>.</td></tr>
       <tr><td><a href="screenshots/"><code>screenshots/</code></a></td><td>UI captures embedded below.</td></tr>
     </tbody>
@@ -253,6 +255,20 @@ dotnet run --project src/LabReport.Web --urls http://127.0.0.1:5891</code></pre>
     <img src="screenshots/layout-studio-preview.png" alt="Layout studio preview with results table">
     <figcaption>Layout studio — mock preview including results / fictional limit columns.</figcaption>
   </figure>
+  <div class="grid">
+    <figure>
+      <img src="screenshots/insert-report-page.png" alt="Report page 1 with Page 1 of 9 in the footer box">
+      <figcaption>Inserted-PDF demo — report page, continuous number in the reserved footer box, appendix range 7–9.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/insert-attachment-page.png" alt="Attachment page with its own sheet number and an attachment label">
+      <figcaption>Attachment page — original “Sheet 1 of 2” kept, label in the bottom strip.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/insert-appendix-page.png" alt="Appendix page numbered Page 7 of 9">
+      <figcaption>Appendix page — numbering continues at Page 7 of 9.</figcaption>
+    </figure>
+  </div>
 </section>
 
 <section>
