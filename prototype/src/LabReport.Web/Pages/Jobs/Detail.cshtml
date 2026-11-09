@@ -13,6 +13,18 @@
         <div><dt>Attempt</dt><dd>@job.Attempt</dd></div>
         <div><dt>Input hash</dt><dd style="word-break:break-all">@(string.IsNullOrEmpty(job.InputHash) ? "—" : job.InputHash)</dd></div>
         <div><dt>PDF hash</dt><dd style="word-break:break-all">@(job.PdfHash ?? "—")</dd></div>
+        @if (job.InsertDigests.Count > 0)
+        {
+            <div>
+                <dt>Inserted files</dt>
+                <dd>
+                    @foreach (var digest in job.InsertDigests)
+                    {
+                        <div style="word-break:break-all">@digest.Id · @digest.File · @digest.PageCount pages · @(digest.Accepted ? "accepted" : "rejected") · @digest.Sha256</div>
+                    }
+                </dd>
+            </div>
+        }
         <div><dt>Cryptographic signature</dt><dd>@(job.CryptographicSignatureApplied ? "Applied" : "Not applied")</dd></div>
     </dl>
     @if (!string.IsNullOrWhiteSpace(job.SigningNote))

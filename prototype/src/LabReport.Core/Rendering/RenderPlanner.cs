@@ -21,6 +21,13 @@ public sealed record RenderPlan
     public required IReadOnlyList<ValidationIssue> Issues { get; init; }
     public bool IsValid => Issues.Count == 0;
     public bool ResultsSectionEnabled { get; init; }
+    public IReadOnlyList<ReportInsert> Inserts
+    {
+        get => _inserts;
+        init => _inserts = value ?? [];
+    }
+
+    private readonly IReadOnlyList<ReportInsert> _inserts = [];
 }
 
 public sealed record SampleGroupView(int Number, int Count, IReadOnlyList<SampleView> Samples);
@@ -60,7 +67,9 @@ public static class RenderPlanner
         IReadOnlyList<TextEntry> texts,
         IReadOnlyList<MrlLimit> mrls,
         SignatoryBlock? signatory,
-        bool isPreview)
+        bool isPreview,
+        IReadOnlyList<ReportInsert>? inserts = null,
+        IReadOnlyList<ValidationIssue>? insertFileIssues = null)
     {
         var issues = new List<ValidationIssue>();
         var canonical = SnapshotCanonicalizer.Canonicalize(snapshot);
@@ -78,6 +87,31 @@ public static class RenderPlanner
         if (template.SamplesPerPage is < 1 or > SampleGrouper.MaxSamplesPerPage)
         {
             issues.Add(new("template.pagination", "Samples per page is outside 1 to 20."));
+        }
+
+        var insertStructure = InsertRules.Validate(template);
+        issues.AddRange(insertStructure);
+        if (insertFileIssues is not null)
+        {
+            issues.AddRange(insertFileIssues);
+        }
+
+        IReadOnlyList<ReportInsert> placedInserts = [];
+        if (insertStructure.Count == 0 && template.Inserts.Count > 0 && (insertFileIssues is null || insertFileIssues.Count == 0))
+        {
+            if (inserts is null)
+            {
+                issues.Add(new("insert.files", "Insert files were not inspected."));
+            }
+            else
+            {
+                var match = InsertRules.Match(template.Inserts, inserts);
+                issues.AddRange(match);
+                if (match.Count == 0)
+                {
+                    placedInserts = inserts;
+                }
+            }
         }
 
         var samplesPerPage = Math.Clamp(template.SamplesPerPage, 1, SampleGrouper.MaxSamplesPerPage);
@@ -306,7 +340,8 @@ public static class RenderPlanner
             SectionIntros = intros,
             Signatory = signatory,
             Issues = issues,
-            ResultsSectionEnabled = resultsSection is not null
+            ResultsSectionEnabled = resultsSection is not null,
+            Inserts = placedInserts
         };
     }
 

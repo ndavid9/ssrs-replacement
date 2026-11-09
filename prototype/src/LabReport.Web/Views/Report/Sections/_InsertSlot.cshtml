@@ -1,0 +1,7 @@
+@model LabReport.Core.Rendering.InsertSlotView
+<div class="insert-slot" data-slot="@Model.Insert.Id" style="height:@(Model.HeightMm.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))mm">
+    <p class="slot-kicker">Placeholder page. Removed when the report is assembled.</p>
+    <h2>@Model.Insert.Label</h2>
+    <p class="slot-marker">@Model.Insert.Marker</p>
+    <p>@Model.Insert.PageCount pages. @Model.Insert.OrientationText. This page is replaced by the uploaded PDF.</p>
+</div>

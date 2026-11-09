@@ -128,12 +128,12 @@ public interface IPostRenderSigner
     Task<SigningHookResult> AfterRenderAsync(byte[] pdf, CancellationToken cancellationToken);
 }
 
-public sealed record SigningHookResult(bool CryptographicSignatureApplied, string Note);
+public sealed record SigningHookResult(byte[] Pdf, bool CryptographicSignatureApplied, string Note);
 
 public sealed class NoCryptographicSigner : IPostRenderSigner
 {
     public Task<SigningHookResult> AfterRenderAsync(byte[] pdf, CancellationToken cancellationToken) =>
-        Task.FromResult(new SigningHookResult(false, "No cryptographic signature was applied. The signatory block is a visual label selected by id. A production hook can detached-sign these PDF bytes after this point."));
+        Task.FromResult(new SigningHookResult(pdf, false, "No cryptographic signature was applied. Merge and page stamps already ran. The signatory block is a visual label selected by id. A production hook can detached-sign these PDF bytes after this point."));
 }
 
 public sealed class ReportJobService
@@ -145,6 +145,7 @@ public sealed class ReportJobService
     private readonly JobQueue _queue;
     private readonly DemoAuthorizer _authorizer;
     private readonly SignatoryAssets _assets;
+    private readonly ReportPreparation _preparation;
 
     public ReportJobService(
         IReportFeed feed,
@@ -153,7 +154,8 @@ public sealed class ReportJobService
         FileJobStore jobs,
         JobQueue queue,
         DemoAuthorizer authorizer,
-        SignatoryAssets assets)
+        SignatoryAssets assets,
+        ReportPreparation preparation)
     {
         _feed = feed;
         _templates = templates;
@@ -162,6 +164,7 @@ public sealed class ReportJobService
         _queue = queue;
         _authorizer = authorizer;
         _assets = assets;
+        _preparation = preparation;
     }
 
     public async Task<JobRecord> EnqueueAsync(RenderRequest request, CancellationToken cancellationToken)
@@ -210,7 +213,8 @@ public sealed class ReportJobService
             }
         }
 
-        var plan = RenderPlanner.Plan(snapshot, effective, texts, mrls, signatory, isPreview: false);
+        var prepared = _preparation.Prepare(snapshot, effective, texts, mrls, signatory, isPreview: false);
+        var plan = prepared.Plan;
         issues.AddRange(plan.Issues);
         var pin = new PinnedInput
         {
@@ -222,7 +226,8 @@ public sealed class ReportJobService
             Signatory = signatory,
             SamplesPerPage = effective.SamplesPerPage,
             Paper = effective.Paper,
-            Orientation = effective.Orientation
+            Orientation = effective.Orientation,
+            Inserts = prepared.Inspection.Digests
         };
         var hash = SnapshotHasher.Hash(pin);
         if (issues.Count > 0)
@@ -234,7 +239,7 @@ public sealed class ReportJobService
                 return existingInvalid;
             }
 
-            var invalid = NewJob(request, effective, hash, JobStatus.FailedValidation, issues, "Validation failed. No PDF was published.");
+            var invalid = NewJob(request, effective, hash, JobStatus.FailedValidation, issues, "Validation failed. No PDF was published.", prepared.Inspection.Digests);
             _jobs.Save(invalid);
             _jobs.SavePin(invalid.Id, pin);
             _jobs.Audit("validation_failed", invalid.Id, invalid.Error ?? "");
@@ -248,7 +253,7 @@ public sealed class ReportJobService
             return existing with { DeduplicatedFrom = existing.Id };
         }
 
-        var job = NewJob(request, effective, hash, JobStatus.Queued, [], null);
+        var job = NewJob(request, effective, hash, JobStatus.Queued, [], null, prepared.Inspection.Digests);
         _jobs.Save(job);
         _jobs.SavePin(job.Id, pin);
         await _queue.EnqueueAsync(job.Id, cancellationToken);
@@ -278,7 +283,7 @@ public sealed class ReportJobService
         return job;
     }
 
-    private JobRecord NewJob(RenderRequest request, TemplateDefinition template, string hash, JobStatus status, IReadOnlyList<ValidationIssue> issues, string? error) =>
+    private JobRecord NewJob(RenderRequest request, TemplateDefinition template, string hash, JobStatus status, IReadOnlyList<ValidationIssue> issues, string? error, IReadOnlyList<InsertDigest> digests) =>
         new()
         {
             Id = Guid.NewGuid(),
@@ -292,7 +297,8 @@ public sealed class ReportJobService
             CreatedUtc = DateTimeOffset.UtcNow,
             FinishedUtc = status == JobStatus.FailedValidation ? DateTimeOffset.UtcNow : null,
             Error = error,
-            Issues = issues
+            Issues = issues,
+            InsertDigests = digests
         };
 }
 
@@ -301,6 +307,8 @@ public sealed class RenderWorker : BackgroundService
     private readonly JobQueue _queue;
     private readonly FileJobStore _jobs;
     private readonly ReportDocumentRenderer _renderer;
+    private readonly ReportPreparation _preparation;
+    private readonly ReportFontAsset _fonts;
     private readonly IPostRenderSigner _signer;
     private readonly ILogger<RenderWorker> _logger;
     private readonly int _concurrency;
@@ -311,6 +319,8 @@ public sealed class RenderWorker : BackgroundService
         JobQueue queue,
         FileJobStore jobs,
         ReportDocumentRenderer renderer,
+        ReportPreparation preparation,
+        ReportFontAsset fonts,
         IPostRenderSigner signer,
         IConfiguration configuration,
         ILogger<RenderWorker> logger)
@@ -318,6 +328,8 @@ public sealed class RenderWorker : BackgroundService
         _queue = queue;
         _jobs = jobs;
         _renderer = renderer;
+        _preparation = preparation;
+        _fonts = fonts;
         _signer = signer;
         _logger = logger;
         _concurrency = Math.Clamp(configuration.GetValue("Worker:MaxConcurrency", 2), 1, 4);
@@ -387,7 +399,8 @@ public sealed class RenderWorker : BackgroundService
                 return;
             }
 
-            var plan = RenderPlanner.Plan(pin.Snapshot, pin.Template, pin.Texts, pin.Mrls, pin.Signatory, isPreview: false);
+            var prepared = _preparation.Prepare(pin.Snapshot, pin.Template, pin.Texts, pin.Mrls, pin.Signatory, isPreview: false);
+            var plan = prepared.Plan;
             if (!plan.IsValid)
             {
                 _jobs.Save(job with
@@ -401,20 +414,25 @@ public sealed class RenderWorker : BackgroundService
                 return;
             }
 
-            var pdf = await _renderer.RenderPdfAsync(plan, timeout.Token);
-            var signing = await _signer.AfterRenderAsync(pdf, timeout.Token);
-            _jobs.SaveArtifact(id, pdf);
+            if (!DigestsMatch(pin.Inserts, prepared.Inspection.Digests))
+            {
+                throw new InvalidOperationException("An inserted PDF changed after the job was pinned.");
+            }
+
+            var rendered = await _renderer.RenderPdfAsync(plan, timeout.Token);
+            var signing = await ReportFinish.FinishAsync(rendered, _preparation.PayloadsFor(plan), _fonts.Regular, _signer, timeout.Token);
+            _jobs.SaveArtifact(id, signing.Pdf);
             _jobs.Save((_jobs.Find(id) ?? job) with
             {
                 Status = JobStatus.Succeeded,
                 Attempt = attempt,
                 FinishedUtc = DateTimeOffset.UtcNow,
-                PdfHash = SnapshotHasher.HashBytes(pdf),
+                PdfHash = SnapshotHasher.HashBytes(signing.Pdf),
                 Error = null,
                 SigningNote = signing.Note,
                 CryptographicSignatureApplied = signing.CryptographicSignatureApplied
             });
-            _jobs.Audit("render_succeeded", id, SnapshotHasher.HashBytes(pdf));
+            _jobs.Audit("render_succeeded", id, SnapshotHasher.HashBytes(signing.Pdf));
         }
         catch (OperationCanceledException) when (!stoppingToken.IsCancellationRequested)
         {
@@ -425,6 +443,29 @@ public sealed class RenderWorker : BackgroundService
             _logger.LogWarning(exception, "Render attempt {Attempt} failed for {JobId}.", attempt, id);
             await RetryOrFailAsync(id, attempt, exception.Message);
         }
+    }
+
+    private static bool DigestsMatch(IReadOnlyList<InsertDigest> pinned, IReadOnlyList<InsertDigest> current)
+    {
+        if (pinned.Count != current.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < pinned.Count; index++)
+        {
+            var left = pinned[index];
+            var right = current[index];
+            if (!string.Equals(left.Id, right.Id, StringComparison.Ordinal)
+                || !string.Equals(left.Sha256, right.Sha256, StringComparison.Ordinal)
+                || left.PageCount != right.PageCount
+                || left.Accepted != right.Accepted)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private async Task RetryOrFailAsync(Guid id, int attempt, string error)

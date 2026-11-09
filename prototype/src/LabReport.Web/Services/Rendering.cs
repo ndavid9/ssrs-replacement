@@ -175,9 +175,7 @@ public sealed class PlaywrightPdfRenderer : IAsyncDisposable
                 + "<div style=\"border:1px solid #c2410c;background:#fff7ed;padding:2px 6px;font-weight:700;\">SYNTHETIC DATA / NOT A VALID LABORATORY CERTIFICATE</div>"
                 + "<div style=\"display:flex;justify-content:space-between;margin-top:2px;color:#1c2430;\"><span>Northline Demonstration Bench · "
                 + reportNumber + "</span><span>" + templateLabel + "</span></div></div>";
-            var footer = "<div style=\"font-size:9px;width:100%;font-family:sans-serif;padding:0 4px;color:#1c2430;display:flex;justify-content:space-between;\">"
-                + "<span>Synthetic demo. No accreditation. No cryptographic signature.</span>"
-                + "<span>Page <span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span></span></div>";
+            var footer = PageStampMetrics.FooterHtml();
             var bytes = await page.PdfAsync(new PagePdfOptions
             {
                 Format = plan.Template.Paper == "Letter" ? "Letter" : "A4",

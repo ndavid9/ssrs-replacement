@@ -7,10 +7,10 @@
 3. The feed loads a canonical snapshot. The JSON feed reads `Seed/feeds/report-snapshot-v1/{tenant}/{reportId}.json`. The SQL feed calls `rpt.usp_ExportReportSnapshot` with `@TenantId`, `@ReportId`, and `@PrincipalId`.
 4. The planner validates the snapshot, resolves approved text for the report date, evaluates fictional limits, and numbers methods.
 5. If validation fails, the job is stored as `FailedValidation` and no PDF is written.
-6. If it passes, the exact snapshot, template, selected text versions, limit rows, and signatory block are written to `App_Data/pins/{jobId}.json`. A SHA-256 of that pin is the input hash.
+6. If it passes, the exact snapshot, template, selected text versions, limit rows, signatory block, and the SHA-256 of each insert file are written to `App_Data/pins/{jobId}.json`. A SHA-256 of that pin is the input hash.
 7. A `BackgroundService` reads an in-memory channel. Concurrency is capped (default 2). PDF printing itself is serialized on one browser. Attempts default to 3. A render timeout defaults to 90 seconds. Restarting the process re-queues jobs that were still `Queued` or `Rendering`.
-8. Razor renders section partials. Playwright loads that HTML with network and file requests aborted except `data:`, `about:`, and `blob:`. Liberation Sans is embedded so the PDF does not fetch a font.
-9. The PDF, its SHA-256, and a note from `NoCryptographicSigner` are stored. The signer does not sign. It records that a later hook could detached-sign the bytes.
+8. Razor renders section partials. Playwright loads that HTML with network and file requests aborted except `data:`, `about:`, and `blob:`. Liberation Sans is embedded so the PDF does not fetch a font. The footer reserves an empty box for the page number. It does not print one.
+9. If the template lists inserts, each slot page is replaced with the uploaded PDF (PDFsharp). Page numbers are stamped after that merge. `NoCryptographicSigner` runs last on those bytes and does not sign. The stored PDF hash is the signed-hook result. Each inserted file’s SHA-256 is stored on the job next to the pin hash.
 10. Download uses the job GUID only. Paths are combined under `App_Data/artifacts` and rejected if they escape that directory.
 
 The same input hash in `Queued`, `Rendering`, `Succeeded`, or `FailedValidation` returns the existing job. A failed render can be queued again as a new job. Editing a template or catalog changes the hash, so a new job is created and the old PDF stays put.

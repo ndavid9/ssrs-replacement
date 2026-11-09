@@ -10,8 +10,8 @@ If the approval section is enabled and the id or the asset key is unknown, valid
 
 ## What this is not
 
-Nothing in the pipeline computes a CMS/PKCS#7 signature, a PAdES signature, or a trusted timestamp. `NoCryptographicSigner.AfterRenderAsync` receives the PDF bytes and returns `CryptographicSignatureApplied = false` plus a sentence that is stored on the job. The job page shows that flag.
+Nothing in the pipeline computes a CMS/PKCS#7 signature, a PAdES signature, or a trusted timestamp. The published bytes are produced in a fixed order: Chromium render, then insert merge, then page stamps, then `NoCryptographicSigner.AfterRenderAsync`. The hook receives the stamped PDF and returns those same bytes with `CryptographicSignatureApplied = false` plus a sentence that is stored on the job. The job page shows that flag. The stored PDF hash is the hash of the bytes the hook returned.
 
-A production hook would run after the PDF bytes and the SHA-256 exist: take those bytes, sign them with a key held outside this app, and store the signature next to the artifact without changing the rendered pages. Doing that inside the HTML, or by drawing a person’s name in a script font, would still not be a signature. This prototype does not do either of those things.
+A production hook would run at that same last step: take those bytes, sign them with a key held outside this app, and store the signature next to the artifact. Doing that inside the HTML, or by drawing a person’s name in a script font, would still not be a signature. This prototype does not do either of those things.
 
 The banner “SYNTHETIC DATA / NOT A VALID LABORATORY CERTIFICATE” is printed in the body and in the PDF header on every page. The admin screens cannot turn it off.

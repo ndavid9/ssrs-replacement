@@ -14,6 +14,9 @@ builder.Services.AddSingleton<FeedSettingsStore>();
 builder.Services.AddSingleton<JobQueue>();
 builder.Services.AddSingleton<DemoAuthorizer>();
 builder.Services.AddSingleton<SignatoryAssets>();
+builder.Services.AddSingleton<ReportFontAsset>();
+builder.Services.AddSingleton<PdfInsertCatalog>();
+builder.Services.AddSingleton<ReportPreparation>();
 builder.Services.AddSingleton<HtmlDocumentComposer>();
 builder.Services.AddSingleton<RazorReportRenderer>();
 builder.Services.AddSingleton<PlaywrightPdfRenderer>();
@@ -87,7 +90,7 @@ app.MapGet("/preview/{reportId}", async (string reportId, string? templateId, in
     }
 
     var signatory = catalogs.Signatory(effective.SignatoryId);
-    var plan = RenderPlanner.Plan(snapshot, effective, catalogs.Texts(), catalogs.Mrls(), signatory, isPreview: true);
+    var plan = app.Services.GetRequiredService<ReportPreparation>().Prepare(snapshot, effective, catalogs.Texts(), catalogs.Mrls(), signatory, isPreview: true).Plan;
     if (!plan.IsValid)
     {
         var items = string.Join("", plan.Issues.Select(issue => "<li>" + WebUtility.HtmlEncode(issue.Code + ": " + issue.Message) + "</li>"));
@@ -111,7 +114,7 @@ app.MapGet("/jobs/{id}/html", async (string id, FileJobStore jobs, ReportDocumen
     }
 
     var pin = jobs.RequirePin(guid);
-    var plan = RenderPlanner.Plan(pin.Snapshot, pin.Template, pin.Texts, pin.Mrls, pin.Signatory, isPreview: false);
+    var plan = app.Services.GetRequiredService<ReportPreparation>().Prepare(pin.Snapshot, pin.Template, pin.Texts, pin.Mrls, pin.Signatory, isPreview: false).Plan;
     if (!plan.IsValid)
     {
         return Results.BadRequest("The pinned input no longer passes the current planner.");

@@ -9,7 +9,7 @@ Quick links:
 | [`prototype/`](prototype/) | ASP.NET Core Razor + Playwright report desk |
 | [`admin-mock/`](admin-mock/) | Browser-only layout studio, plus the Nordic examples sandbox |
 | [`docs/research.md`](docs/research.md) | Research notes and recommendations |
-| [`docs/sample-output/`](docs/sample-output/) | Generated sample PDFs |
+| [`docs/sample-output/`](docs/sample-output/) | Generated sample PDFs, including `report-with-inserts.pdf` |
 | [`media/`](media/) | Walkthrough videos |
 | [`screenshots/`](screenshots/) | UI screenshots |
 
@@ -41,5 +41,7 @@ Checks:
 ```bash
 node admin-mock/selfcheck/run.mjs
 ```
+
+The report desk can insert external PDFs. A template lists each file, `attachment` or `appendix`, and a slot (`after:` a section, or `end`). Razor leaves a placeholder page there. After Playwright prints, PDFsharp swaps in the PDF and stamps page numbers: report and appendix pages share `Page n of N`, and attachment pages keep their own content with a label such as `Attachment 2 - page 3 of 5`. See `report-with-inserts.pdf` and the page shots under `screenshots/`.
 
 Private repository. All report data is synthetic and is not a laboratory certificate.

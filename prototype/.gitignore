@@ -5,6 +5,8 @@ App_Data/
 *.user
 .env
 *.pdf
+!src/LabReport.Web/Seed/inserts/
+!src/LabReport.Web/Seed/inserts/*.pdf
 TestResults/
 .DS_Store
 
